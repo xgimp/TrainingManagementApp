@@ -1,0 +1,6 @@
+Aplikace umožňuje jednoduchou správu klientů a plateb za jednotlivé tréningy. K používání není potřeba uživatelský účet nebo připojení k intenetu.
+
+Funkce:
+* správa klientů
+* evidence plateb
+* jednoduchá záloha / obnova dat
