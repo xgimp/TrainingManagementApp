@@ -1,0 +1,6 @@
+App for personal trainers to manage training sessions and payments. No user account or internet connection is required.
+
+Functions:
+* client management
+* record of payments
+* simple data backup / recovery
