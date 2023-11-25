@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import online.bacovsky.trainingmanagement.domain.model.ClientPayment
 import online.bacovsky.trainingmanagement.ui.theme.positive
+import online.bacovsky.trainingmanagement.util.currencySymbol
 
 @Composable
 fun PaymentItem(
@@ -33,7 +34,7 @@ fun PaymentItem(
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
-                text = if (item.amount > 0) "+${item.amount}" else item.amount.toString(),
+                text = if (item.amount > 0) "+${item.amount} $currencySymbol" else "${item.amount} $currencySymbol",
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.titleMedium,
                 color = if (item.amount > 0) positive else MaterialTheme.colorScheme.error,

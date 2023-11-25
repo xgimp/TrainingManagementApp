@@ -42,6 +42,7 @@ import online.bacovsky.trainingmanagement.ui.YesNoDialog
 import online.bacovsky.trainingmanagement.util.Routes
 import online.bacovsky.trainingmanagement.util.UiEvent
 import online.bacovsky.trainingmanagement.util.UiText
+import online.bacovsky.trainingmanagement.util.currencySymbol
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -202,7 +203,7 @@ fun ClientDetailEditScreen(
             Spacer(modifier = Modifier.padding(8.dp))
 
             Text(text = stringResource(id = R.string.account_balance))
-            Text(text = state.balance.toString())
+            Text(text = "${state.balance} $currencySymbol")
 
             Spacer(modifier = Modifier.padding(8.dp))
 

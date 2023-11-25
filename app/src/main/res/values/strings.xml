@@ -28,8 +28,8 @@
     <string name="bottom_nav_item_calendar">Calendar</string>
     <string name="bottom_nav_item_clients">Clients</string>
     <string name="bottom_nav_item_backups">Backups</string>
-    <string name="fee_charged_message">Charged fee <b>%1$s</b> to client <b>%2$s</b> for cancelled training</string>
-    <string name="no_fee_charged_message">Returned <b>%1$s</b> to client <b>%2$s</b> for cancelled training</string>
+    <string name="fee_charged_message">Charged fee 1$s %2$s to client %3$s for cancelled training</string>
+    <string name="no_fee_charged_message">Returned %1$s %2$s to client %3$s for cancelled training</string>
     <string name="initial_funds">Initial Funds</string>
     <string name="funds_added_at">Funds added %s</string>
     <string name="payment_history">Payment History</string>
