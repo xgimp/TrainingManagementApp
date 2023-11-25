@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import online.bacovsky.trainingmanagement.domain.model.Client
 import online.bacovsky.trainingmanagement.domain.model.setBackgroundByBalance
+import online.bacovsky.trainingmanagement.util.currencySymbol
 
 
 @Composable
@@ -95,7 +96,7 @@ fun ClientListItem(
                         contentDescription = "Client balance icon"
                     )
                     Text(
-                        text = "${client.balance}",
+                        text = "${client.balance} $currencySymbol",
                         modifier = Modifier.padding(start = 30.dp),
                     )
                 }

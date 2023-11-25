@@ -29,6 +29,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import online.bacovsky.trainingmanagement.util.currencySymbol
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -263,6 +264,7 @@ class CalendarScreenViewModel @Inject constructor(
                     resourceId = R.string.fee_charged_message,
                     args = arrayOf(
                         trainingDetailFormState.training!!.training.price,
+                        currencySymbol.orEmpty(),
                         trainingDetailFormState.training!!.client.name
                     )
                 )
@@ -281,6 +283,7 @@ class CalendarScreenViewModel @Inject constructor(
                     resourceId = R.string.no_fee_charged_message,
                     args = arrayOf(
                         trainingDetailFormState.training!!.training.price,
+                        currencySymbol.orEmpty(),
                         trainingDetailFormState.training!!.client.name
                     )
                 )

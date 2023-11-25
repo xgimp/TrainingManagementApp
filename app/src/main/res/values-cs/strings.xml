@@ -29,8 +29,8 @@
     <string name="bottom_nav_item_calendar">Kalendář</string>
     <string name="bottom_nav_item_clients">Klienti</string>
     <string name="bottom_nav_item_backups">Zálohy</string>
-    <string name="fee_charged_message">Klientovi <b>%2$s</b> účtován poplatek <b>%1$s</b> za zrušený trénink</string>
-    <string name="no_fee_charged_message">Klientovi <b>%2$s</b> vráceno %1$s za zrušený trénink</string>
+    <string name="fee_charged_message">Klientovi %3$s účtován poplatek <b>%1$s %2$s</b> za zrušený trénink</string>
+    <string name="no_fee_charged_message">Klientovi %3$s vráceno %1$s %2$s za zrušený trénink</string>
     <string name="initial_funds">První vklad</string>
     <string name="funds_added_at">Přidáno %s</string>
     <string name="payment_history">Historie plateb</string>
