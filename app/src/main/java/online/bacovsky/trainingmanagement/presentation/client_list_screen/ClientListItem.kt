@@ -1,11 +1,12 @@
 package online.bacovsky.trainingmanagement.presentation.client_list_screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.FitnessCenter
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,78 +25,81 @@ fun ClientListItem(
 //    onEvent: (ClientListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    Row(
-        modifier = modifier
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = client.setBackgroundByBalance(),
+        ),
+        modifier = Modifier
             .fillMaxWidth()
-//            .padding(start = 10.dp, end = 10.dp)
-            .background(client.setBackgroundByBalance()),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
     ) {
-
-        Icon(
-            imageVector = Icons.Outlined.Person,
-            contentDescription = "Person Icon",
-            modifier = Modifier
-                .padding(start = 10.dp)
-        )
-
-        Text(
-            text = client.name,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.7f)
-                .padding(start = 10.dp, end = 10.dp)
-        )
         Column(
-//            modifier = Modifier
-//                .background(androidx.compose.ui.graphics.Color.Red),
-//                .weight(0.3f),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.SpaceBetween
+            modifier = modifier
+                .fillMaxSize()
+                .padding(start = 10.dp, end = 10.dp)
         ) {
             Row(
                 modifier = Modifier
-                    .padding(end = 10.dp)
+                    .fillMaxWidth()
+                    .height(38.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
             ) {
+
                 Icon(
-                    imageVector = Icons.Outlined.FitnessCenter,
-                    contentDescription = ""
+                    imageVector = Icons.Outlined.Person,
+                    contentDescription = "Person Icon",
                 )
                 Text(
-                    text = (client.balance / client.trainingPrice).toString(),
-//                    color = client.setBalanceTextColor(),
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+                    text = client.name,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.7f)
+                        .padding(start = 5.dp, end = 10.dp)
                 )
+//                IconButton(
+//                    onClick = {}
+//                ) {
+//                    Icon(
+//                        imageVector = Icons.Outlined.Sms,
+//                        contentDescription = ""
+//                    )
+//                }
             }
 
             Row(
                 modifier = Modifier
-                    .padding(end = 10.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Start
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.AccountBalanceWallet,
-                    contentDescription = ""
-                )
-                Text(
-                    text = client.balance.toString(),
-                    modifier = Modifier.padding(start = 10.dp),
-//                    color = client.setBalanceTextColor()
-                )
+                // number of trainings
+                Box(
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.FitnessCenter,
+                        contentDescription = "Number of remaining trainings icon"
+                    )
+                    Text(
+                        text = (client.balance / client.trainingPrice).toString(),
+                        modifier = Modifier.padding(start = 30.dp),
+                    )
+                }
+
+                Box {
+                    // Clients balance
+                    Icon(
+                        imageVector = Icons.Outlined.AccountBalanceWallet,
+                        contentDescription = "Client balance icon"
+                    )
+                    Text(
+                        text = "${client.balance}",
+                        modifier = Modifier.padding(start = 30.dp),
+                    )
+                }
             }
         }
-//        IconButton(
-//            onClick = {
-//                onEvent(ClientListEvent.OnDeleteClick(client))
-//            }
-//        ) {
-//            Icon(
-//                imageVector = Icons.Outlined.DeleteOutline,
-//                contentDescription = ""
-//            )
-//        }
     }
 }
