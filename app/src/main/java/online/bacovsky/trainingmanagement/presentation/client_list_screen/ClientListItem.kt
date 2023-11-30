@@ -5,9 +5,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.FitnessCenter
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Sms
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -81,10 +84,12 @@ fun ClientListItem(
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.FitnessCenter,
+                        tint = MaterialTheme.colorScheme.secondary,
                         contentDescription = "Number of remaining trainings icon"
                     )
                     Text(
                         text = (client.balance / client.trainingPrice).toString(),
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(start = 30.dp),
                     )
                 }
@@ -93,10 +98,12 @@ fun ClientListItem(
                     // Clients balance
                     Icon(
                         imageVector = Icons.Outlined.AccountBalanceWallet,
+                        tint = MaterialTheme.colorScheme.secondary,
                         contentDescription = "Client balance icon"
                     )
                     Text(
                         text = "${client.balance} $currencySymbol",
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(start = 30.dp),
                     )
                 }
