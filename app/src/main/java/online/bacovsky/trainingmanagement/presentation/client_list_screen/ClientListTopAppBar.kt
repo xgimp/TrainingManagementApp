@@ -59,7 +59,7 @@ fun ClientFilterMenu(
             text = {
                    Text(text = "Item 1")
             },
-            onClick = { isExpanded.value = false }
+            onClick = { /*TODO*/ }
         )
         DropdownMenuItem(
             text = {
