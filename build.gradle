@@ -4,9 +4,9 @@ buildscript {
     ext {
         compose_version = '1.5.3'
         hilt_version = '2.48'
-        room_version = '2.6.0'
+        room_version = '2.6.1'
         nav_version = '2.7.5'
-        room_backup_version  = '1.0.0-beta12'
+        room_backup_version  = '1.0.0-beta13'
         weekview_version = '6302f15274' // this commit contains drag and drop support
         m3_version = '1.1.2'
     }
@@ -16,8 +16,8 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '8.1.4' apply false
-    id 'com.android.library' version '8.1.4' apply false
+    id 'com.android.application' version '8.2.0' apply false
+    id 'com.android.library' version '8.2.0' apply false
     id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
     id "com.google.devtools.ksp" version '1.9.0-1.0.13' apply false
 }
