@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TrainingManagement"
-        tools:targetApi="31">
+        tools:targetApi="34">
+
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
