@@ -20,6 +20,8 @@ class ClientListViewModel @Inject constructor(
 ): ViewModel() {
     val clients = repository.getAllActiveClients()
 
+    val clientsWithMetadata = repository.getClientsWithMetadata()
+
     private val _uiEvent = Channel<UiEvent>()
     val iuEvent = _uiEvent.receiveAsFlow()
 

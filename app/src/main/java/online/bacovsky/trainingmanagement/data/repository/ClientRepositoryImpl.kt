@@ -7,6 +7,7 @@ import online.bacovsky.trainingmanagement.data.data_source.ClientPaymentDao
 import online.bacovsky.trainingmanagement.domain.model.ClientPayment
 import online.bacovsky.trainingmanagement.util.TransactionProvider
 import kotlinx.coroutines.flow.Flow
+import online.bacovsky.trainingmanagement.domain.model.ClientWithMetadata
 
 class ClientRepositoryImpl(
     private val clientDao: ClientDao,
@@ -88,6 +89,10 @@ class ClientRepositoryImpl(
 
     override fun getPaymentsByClientId(clientId: Long): Flow<List<ClientPayment>> {
         return clientPaymentDao.getPaymentsByClientId(clientId)
+    }
+
+    override fun getClientsWithMetadata(): Flow<List<ClientWithMetadata>> {
+        return clientDao.getClientsWithMetadata()
     }
 
 }

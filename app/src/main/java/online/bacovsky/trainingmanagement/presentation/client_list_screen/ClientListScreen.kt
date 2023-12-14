@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import online.bacovsky.trainingmanagement.util.UiEvent
 import kotlinx.coroutines.launch
+import online.bacovsky.trainingmanagement.domain.model.ClientWithMetadata
+import java.time.LocalDateTime
 
 @Composable
 fun ClientListScreen(
@@ -32,9 +34,19 @@ fun ClientListScreen(
     viewModel: ClientListViewModel = hiltViewModel()
 ) {
 
-    val clients = viewModel.clients.collectAsState(initial = emptyList())
+//    val clients = viewModel.clients.collectAsState(initial = emptyList())
+    val clients = viewModel.clientsWithMetadata.collectAsState(initial = emptyList())
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+
+    val sortedClients = clients.value
+        .sortedWith(
+            compareBy(
+                nullsLast()
+            ) {
+                it.closestTrainingStartAt
+            }
+        )
 
     LaunchedEffect(key1 = true) {
         viewModel.iuEvent.collect { event ->
@@ -84,7 +96,7 @@ fun ClientListScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            items(clients.value) { client ->
+            items(sortedClients) { client ->
                 ClientListItem(
                     client = client,
 //                    onEvent = viewModel::onEvent,
@@ -93,7 +105,7 @@ fun ClientListScreen(
                         .height(72.dp)
                         .clickable {
                             viewModel.onEvent(
-                                ClientListEvent.OnClickOnClientRowItem(clientId = client.id)
+                                ClientListEvent.OnClickOnClientRowItem(clientId = client.clientId)
                             )
                         }
                 )

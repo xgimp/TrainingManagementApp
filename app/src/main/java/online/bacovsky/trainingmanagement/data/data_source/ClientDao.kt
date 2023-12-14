@@ -3,6 +3,7 @@ package online.bacovsky.trainingmanagement.data.data_source
 import androidx.room.*
 import online.bacovsky.trainingmanagement.domain.model.Client
 import kotlinx.coroutines.flow.Flow
+import online.bacovsky.trainingmanagement.domain.model.ClientWithMetadata
 
 @Dao
 interface ClientDao {
@@ -26,4 +27,49 @@ interface ClientDao {
         "ORDER BY Client.name COLLATE NOCASE ASC"
     )
     fun getAllActiveClients(): Flow<List<Client>>
+
+    @Query("WITH ClosestTraining AS (\n" +
+            "    SELECT \n" +
+            "        c.id AS client_id,\n" +
+            "        c.name AS client_name,\n" +
+            "        c.balance AS client_balance,\n" +
+            "        c.trainingPrice AS client_training_price,\n" +
+            "        CASE \n" +
+            "            WHEN MIN(t.id) IS NOT NULL THEN \n" +
+            "                MIN(CASE WHEN t.startTime >= datetime('now') AND t.isCanceled = 0 THEN t.id ELSE NULL END)\n" +
+            "            ELSE \n" +
+            "                NULL\n" +
+            "        END AS closest_training_id\n" +
+            "    FROM \n" +
+            "        Client AS c\n" +
+            "    LEFT JOIN \n" +
+            "        Training AS t ON c.id = t.clientId\n" +
+            "    WHERE \n" +
+            "        c.isDeleted = 0\n" +
+            "    GROUP BY \n" +
+            "        c.id, c.name\n" +
+            "),\n" +
+            "LastClientPayment AS (\n" +
+            "    SELECT \n" +
+            "        clientId AS client_id,\n" +
+            "        MAX(createdAt) AS last_payment_time\n" +
+            "    FROM \n" +
+            "        ClientPayment\n" +
+            "    GROUP BY \n" +
+            "        clientId\n" +
+            ")\n" +
+            "SELECT \n" +
+            "    c.client_id AS clientId,\n" +
+            "    c.client_name AS clientName,\n" +
+            "    c.client_balance AS clientBalance,\n" +
+            "    c.client_training_price AS clientTrainingPrice,\n" +
+            "    t.startTime AS closestTrainingStartAt,\n" +
+            "    p.last_payment_time AS lastPaymentAt\n" +
+            "FROM \n" +
+            "    ClosestTraining AS c\n" +
+            "LEFT JOIN \n" +
+            "    Training AS t ON c.closest_training_id = t.id\n" +
+            "LEFT JOIN \n" +
+            "    LastClientPayment AS p ON c.client_id = p.client_id")
+    fun getClientsWithMetadata(): Flow<List<ClientWithMetadata>>
 }

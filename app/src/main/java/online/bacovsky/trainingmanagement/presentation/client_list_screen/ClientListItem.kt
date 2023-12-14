@@ -16,14 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import online.bacovsky.trainingmanagement.domain.model.Client
+import online.bacovsky.trainingmanagement.domain.model.ClientWithMetadata
 import online.bacovsky.trainingmanagement.domain.model.setBackgroundByBalance
 import online.bacovsky.trainingmanagement.util.currencySymbol
 
 
 @Composable
 fun ClientListItem(
-    client: Client,
+    client: ClientWithMetadata,
 //    onEvent: (ClientListEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -52,7 +52,7 @@ fun ClientListItem(
                     contentDescription = "Person Icon",
                 )
                 Text(
-                    text = client.name,
+                    text = client.clientName,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -86,7 +86,7 @@ fun ClientListItem(
                         contentDescription = "Number of remaining trainings icon"
                     )
                     Text(
-                        text = (client.balance / client.trainingPrice).toString(),
+                        text = (client.clientBalance / client.clientTrainingPrice).toString(),
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(start = 30.dp),
                     )
@@ -100,7 +100,7 @@ fun ClientListItem(
                         contentDescription = "Client balance icon"
                     )
                     Text(
-                        text = "${client.balance} $currencySymbol",
+                        text = "${client.clientBalance} $currencySymbol",
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(start = 30.dp),
                     )
