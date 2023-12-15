@@ -12,15 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import online.bacovsky.trainingmanagement.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ClientListTopAppBar() {
-    val isMenuExpanded = rememberSaveable { mutableStateOf(false) }
+fun ClientListTopAppBar(
+    isSortMenuExpanded: MutableState<Boolean>,
+    currentSortOrder: MutableState<SortOrder>
+) {
 
     TopAppBar(
         title = {
@@ -30,14 +30,15 @@ fun ClientListTopAppBar() {
             )
         },
         actions = {
+            Text(text = currentSortOrder.value.displayName)
             Box {
                 IconButton(
                     onClick = {
-                        isMenuExpanded.value = !isMenuExpanded.value
+                        isSortMenuExpanded.value = !isSortMenuExpanded.value
                     }
                 ) {
                     Icon(Icons.Outlined.FilterList, contentDescription = "Filter List")
-                    ClientFilterMenu(isExpanded = isMenuExpanded)
+                    ClientSortOrderMenu(isExpanded = isSortMenuExpanded, currentSortOrder = currentSortOrder)
                 }
             }
         }
@@ -46,8 +47,9 @@ fun ClientListTopAppBar() {
 
 
 @Composable
-fun ClientFilterMenu(
-    isExpanded: MutableState<Boolean>
+fun ClientSortOrderMenu(
+    isExpanded: MutableState<Boolean>,
+    currentSortOrder: MutableState<SortOrder>,
 ) {
     DropdownMenu(
         expanded = isExpanded.value,
@@ -57,15 +59,35 @@ fun ClientFilterMenu(
     ) {
         DropdownMenuItem(
             text = {
-                   Text(text = "Item 1")
+                Text(text = SortOrder.NameAsc.displayName)
             },
-            onClick = { /*TODO*/ }
+            onClick = {
+                currentSortOrder.value = SortOrder.NameAsc
+            }
         )
         DropdownMenuItem(
             text = {
-                   Text(text = "Item 2")
+                Text(text = SortOrder.NameDesc.displayName)
             },
-            onClick = { /*TODO*/ }
+            onClick = {
+                currentSortOrder.value = SortOrder.NameDesc
+            }
+        )
+        DropdownMenuItem(
+            text = {
+                Text(text = SortOrder.ClosestTraining.displayName)
+            },
+            onClick = {
+                currentSortOrder.value = SortOrder.ClosestTraining
+            }
+        )
+        DropdownMenuItem(
+            text = {
+                Text(text = SortOrder.LastPaymentDesc.displayName)
+            },
+            onClick = {
+                currentSortOrder.value = SortOrder.LastPaymentDesc
+            }
         )
     }
 }
