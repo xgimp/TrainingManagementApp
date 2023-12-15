@@ -3,8 +3,6 @@ package online.bacovsky.trainingmanagement.presentation.client_list_screen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterList
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,73 +54,4 @@ fun ClientListTopAppBar(
             }
         }
     )
-}
-
-
-@Composable
-fun ClientSortOrderMenu(
-    isExpanded: MutableState<Boolean>,
-    currentSortOrder: MutableState<SortOrder>,
-) {
-    DropdownMenu(
-        expanded = isExpanded.value,
-        onDismissRequest = {
-            isExpanded.value = false
-        }
-    ) {
-        DropdownMenuItem(
-            text = {
-                Text(text = UiText.StringResource(resourceId = R.string.sort_by_name_asc).asString())
-            },
-            onClick = {
-                currentSortOrder.value = SortOrder.NameAsc
-                isExpanded.value = false
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                Text(text = UiText.StringResource(resourceId = R.string.sort_by_name_desc).asString())
-            },
-            onClick = {
-                currentSortOrder.value = SortOrder.NameDesc
-                isExpanded.value = false
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                Text(text = UiText.StringResource(resourceId = R.string.sort_by_closest_training_desc).asString())
-            },
-            onClick = {
-                currentSortOrder.value = SortOrder.ClosestTraining
-                isExpanded.value = false
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                Text(text = UiText.StringResource(resourceId = R.string.sort_by_payment_desc).asString())
-            },
-            onClick = {
-                currentSortOrder.value = SortOrder.LastPaymentDesc
-                isExpanded.value = false
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                Text(text = UiText.StringResource(resourceId = R.string.sort_by_available_training_asc).asString())
-            },
-            onClick = {
-                currentSortOrder.value = SortOrder.AvailableTrainingsAsc
-                isExpanded.value = false
-            }
-        )
-        DropdownMenuItem(
-            text = {
-                Text(text = UiText.StringResource(resourceId = R.string.sort_by_available_training_desc).asString())
-            },
-            onClick = {
-                currentSortOrder.value = SortOrder.AvailableTrainingsDesc
-                isExpanded.value = false
-            }
-        )
-    }
 }

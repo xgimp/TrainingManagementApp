@@ -58,6 +58,6 @@
     <string name="sort_by_name_desc">By name (Z → A)</string>
     <string name="sort_by_closest_training_desc">By closest trainig ↓</string>
     <string name="sort_by_payment_desc">By last payment ↓</string>
-    <string name="sort_by_available_training_asc">Available trainings ↓</string>
-    <string name="sort_by_available_training_desc">Available trainings ↑</string>
+    <string name="sort_by_available_training_asc">Available trainings ↑</string>
+    <string name="sort_by_available_training_desc">Available trainings ↓</string>
 </resources>
