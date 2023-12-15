@@ -39,8 +39,9 @@ fun ClientListScreen(
     val scope = rememberCoroutineScope()
 
     val isSortMenuExpanded = rememberSaveable { mutableStateOf(false) }
-    val currentSortOrder = remember { mutableStateOf<SortOrder>(SortOrder.NameAsc) }
 
+    // TODO: move this to viewModel
+    val currentSortOrder = remember { mutableStateOf<SortOrder>(SortOrder.NameAsc) }
     val sortedClientList = when (currentSortOrder.value) {
         SortOrder.ClosestTraining -> clients.value.sortedWith(compareBy(nullsLast()) { it.closestTrainingStartAt })
         SortOrder.LastPaymentDesc -> clients.value.sortedByDescending { it.lastPaymentAt }
