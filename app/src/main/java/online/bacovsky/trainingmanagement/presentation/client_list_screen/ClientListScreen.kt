@@ -1,6 +1,5 @@
 package online.bacovsky.trainingmanagement.presentation.client_list_screen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import online.bacovsky.trainingmanagement.util.UiEvent
@@ -36,19 +34,20 @@ fun ClientListScreen(
     viewModel: ClientListViewModel = hiltViewModel()
 ) {
 
-//    val clients = viewModel.clients.collectAsState(initial = emptyList())
     val clients = viewModel.clientsWithMetadata.collectAsState(initial = emptyList())
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
     val isSortMenuExpanded = rememberSaveable { mutableStateOf(false) }
-    var currentSortOrder = remember { mutableStateOf<SortOrder>(SortOrder.NameAsc) }
+    val currentSortOrder = remember { mutableStateOf<SortOrder>(SortOrder.NameAsc) }
 
     val sortedClientList = when (currentSortOrder.value) {
         SortOrder.ClosestTraining -> clients.value.sortedWith(compareBy(nullsLast()) { it.closestTrainingStartAt })
         SortOrder.LastPaymentDesc -> clients.value.sortedByDescending { it.lastPaymentAt }
         SortOrder.NameAsc -> clients.value.sortedBy { it.clientName.lowercase() }
         SortOrder.NameDesc -> clients.value.sortedByDescending { it.clientName.lowercase() }
+        SortOrder.AvailableTrainingsAsc -> clients.value.sortedBy { it.availableTrainings }
+        SortOrder.AvailableTrainingsDesc -> clients.value.sortedByDescending { it.availableTrainings }
     }
 
 

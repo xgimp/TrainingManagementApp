@@ -107,20 +107,19 @@ fun ClientListItem(
                         modifier = Modifier.padding(start = 30.dp),
                     )
                 }
-
-                Box {
-                    // Clients closest training at
-                    Icon(
-                        imageVector = Icons.Outlined.AccessTime,
-                        tint = MaterialTheme.colorScheme.secondary,
-                        contentDescription = "Client balance icon"
-                    )
-                    Text(
-                        text = client.closestTrainingStartAt?.toLocalizedDateTimeFormat() ?: "??",
-                        color = MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier.padding(start = 30.dp),
-                    )
-                }
+//                Box {
+//                    // Clients closest training at
+//                    Icon(
+//                        imageVector = Icons.Outlined.AccessTime,
+//                        tint = MaterialTheme.colorScheme.secondary,
+//                        contentDescription = "Client balance icon"
+//                    )
+//                    Text(
+//                        text = client.closestTrainingStartAt?.toLocalizedDateTimeFormat() ?: "??",
+//                        color = MaterialTheme.colorScheme.secondary,
+//                        modifier = Modifier.padding(start = 30.dp),
+//                    )
+//                }
             }
         }
     }

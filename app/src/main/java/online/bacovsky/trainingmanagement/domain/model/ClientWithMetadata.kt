@@ -15,6 +15,8 @@ data class ClientWithMetadata(
 
     val clientTrainingPrice: Long,
 
+    val availableTrainings: Long,
+
     val closestTrainingStartAt: LocalDateTime?,
 
     val lastPaymentAt: LocalDateTime,

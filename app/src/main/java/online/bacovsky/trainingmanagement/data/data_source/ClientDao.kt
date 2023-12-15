@@ -61,6 +61,7 @@ interface ClientDao {
             "  c.client_name AS clientName, \n" +
             "  c.client_balance AS clientBalance, \n" +
             "  c.client_training_price AS clientTrainingPrice, \n" +
+            "  (c.client_balance /  c.client_training_price) AS availableTrainings,\n" +
             "  t.startTime AS closestTrainingStartAt, \n" +
             "  p.last_payment_time AS lastPaymentAt \n" +
             "FROM \n" +

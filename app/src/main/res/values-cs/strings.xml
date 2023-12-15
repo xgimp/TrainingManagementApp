@@ -54,4 +54,11 @@
     <string name="price_too_low_error">Cena nemůže být menší než %d</string>
     <string name="time_error">Vyberte platný čas</string>
     <string name="date_error">Vyberte platné datum</string>
+    <string name="backup_file_name">záloha %s</string>
+    <string name="sort_by_name_asc">Jméno (A → Z)</string>
+    <string name="sort_by_name_desc">Jméno (Z → A)</string>
+    <string name="sort_by_closest_training_desc">Nejbližší tréning ↓</string>
+    <string name="sort_by_payment_desc">Datum nejbliší platby ↓</string>
+    <string name="sort_by_available_training_asc">Počet tréninků ↓</string>
+    <string name="sort_by_available_training_desc">Počet tréninků ↑</string>
 </resources>

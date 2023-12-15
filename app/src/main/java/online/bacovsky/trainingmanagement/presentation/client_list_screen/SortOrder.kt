@@ -1,9 +1,11 @@
 package online.bacovsky.trainingmanagement.presentation.client_list_screen
 
-sealed class SortOrder(val displayName: String) {
-    data object NameAsc: SortOrder("By Name ASC")
-    data object NameDesc: SortOrder("By Name Desc")
-    data object ClosestTraining: SortOrder("By Closest Training")
-    data object LastPaymentDesc: SortOrder("By Last Payment")
+sealed class SortOrder {
+    data object NameAsc: SortOrder()
+    data object NameDesc: SortOrder()
+    data object ClosestTraining: SortOrder()
+    data object LastPaymentDesc: SortOrder()
+    data object AvailableTrainingsAsc: SortOrder()
+    data object AvailableTrainingsDesc: SortOrder()
 }
 

@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.stringResource
 import online.bacovsky.trainingmanagement.R
+import online.bacovsky.trainingmanagement.util.UiText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,6 +22,15 @@ fun ClientListTopAppBar(
     isSortMenuExpanded: MutableState<Boolean>,
     currentSortOrder: MutableState<SortOrder>
 ) {
+
+    val currentOrderText = when(currentSortOrder.value) {
+        SortOrder.ClosestTraining -> UiText.StringResource(resourceId = R.string.sort_by_closest_training_desc).asString()
+        SortOrder.LastPaymentDesc -> UiText.StringResource(resourceId = R.string.sort_by_payment_desc).asString()
+        SortOrder.NameAsc -> UiText.StringResource(resourceId = R.string.sort_by_name_asc).asString()
+        SortOrder.NameDesc -> UiText.StringResource(resourceId = R.string.sort_by_name_desc).asString()
+        SortOrder.AvailableTrainingsAsc -> UiText.StringResource(resourceId = R.string.sort_by_available_training_asc).asString()
+        SortOrder.AvailableTrainingsDesc -> UiText.StringResource(resourceId = R.string.sort_by_available_training_desc).asString()
+    }
 
     TopAppBar(
         title = {
@@ -30,7 +40,7 @@ fun ClientListTopAppBar(
             )
         },
         actions = {
-            Text(text = currentSortOrder.value.displayName)
+            Text(text = currentOrderText)
             Box {
                 IconButton(
                     onClick = {
@@ -38,7 +48,10 @@ fun ClientListTopAppBar(
                     }
                 ) {
                     Icon(Icons.Outlined.FilterList, contentDescription = "Filter List")
-                    ClientSortOrderMenu(isExpanded = isSortMenuExpanded, currentSortOrder = currentSortOrder)
+                    ClientSortOrderMenu(
+                        isExpanded = isSortMenuExpanded,
+                        currentSortOrder = currentSortOrder
+                    )
                 }
             }
         }
@@ -59,34 +72,56 @@ fun ClientSortOrderMenu(
     ) {
         DropdownMenuItem(
             text = {
-                Text(text = SortOrder.NameAsc.displayName)
+                Text(text = UiText.StringResource(resourceId = R.string.sort_by_name_asc).asString())
             },
             onClick = {
                 currentSortOrder.value = SortOrder.NameAsc
+                isExpanded.value = false
             }
         )
         DropdownMenuItem(
             text = {
-                Text(text = SortOrder.NameDesc.displayName)
+                Text(text = UiText.StringResource(resourceId = R.string.sort_by_name_desc).asString())
             },
             onClick = {
                 currentSortOrder.value = SortOrder.NameDesc
+                isExpanded.value = false
             }
         )
         DropdownMenuItem(
             text = {
-                Text(text = SortOrder.ClosestTraining.displayName)
+                Text(text = UiText.StringResource(resourceId = R.string.sort_by_closest_training_desc).asString())
             },
             onClick = {
                 currentSortOrder.value = SortOrder.ClosestTraining
+                isExpanded.value = false
             }
         )
         DropdownMenuItem(
             text = {
-                Text(text = SortOrder.LastPaymentDesc.displayName)
+                Text(text = UiText.StringResource(resourceId = R.string.sort_by_payment_desc).asString())
             },
             onClick = {
                 currentSortOrder.value = SortOrder.LastPaymentDesc
+                isExpanded.value = false
+            }
+        )
+        DropdownMenuItem(
+            text = {
+                Text(text = UiText.StringResource(resourceId = R.string.sort_by_available_training_asc).asString())
+            },
+            onClick = {
+                currentSortOrder.value = SortOrder.AvailableTrainingsAsc
+                isExpanded.value = false
+            }
+        )
+        DropdownMenuItem(
+            text = {
+                Text(text = UiText.StringResource(resourceId = R.string.sort_by_available_training_desc).asString())
+            },
+            onClick = {
+                currentSortOrder.value = SortOrder.AvailableTrainingsDesc
+                isExpanded.value = false
             }
         )
     }
