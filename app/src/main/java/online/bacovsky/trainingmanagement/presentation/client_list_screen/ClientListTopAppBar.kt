@@ -17,8 +17,9 @@ import online.bacovsky.trainingmanagement.util.UiText
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClientListTopAppBar(
-    isSortMenuExpanded: MutableState<Boolean>,
-    currentSortOrder: MutableState<SortOrder>
+    onClick: (ClientListEvent) -> Unit,
+    currentSortOrder: MutableState<SortOrder>,
+    isMenuExpanded: Boolean
 ) {
 
     val currentOrderText = when(currentSortOrder.value) {
@@ -42,12 +43,13 @@ fun ClientListTopAppBar(
             Box {
                 IconButton(
                     onClick = {
-                        isSortMenuExpanded.value = !isSortMenuExpanded.value
+                        onClick(ClientListEvent.OnSortButtonClick)
                     }
                 ) {
                     Icon(Icons.Outlined.FilterList, contentDescription = "Filter List")
                     ClientSortOrderMenu(
-                        isExpanded = isSortMenuExpanded,
+                        onClick = onClick,
+                        isExpanded = isMenuExpanded,
                         currentSortOrder = currentSortOrder
                     )
                 }

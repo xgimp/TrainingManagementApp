@@ -21,7 +21,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,7 +37,7 @@ fun ClientListScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val isSortMenuExpanded = rememberSaveable { mutableStateOf(false) }
+    val isSortMenuExpanded = viewModel.isSortOrderMenuExpanded
 
     // TODO: move this to viewModel
     val currentSortOrder = remember { mutableStateOf<SortOrder>(SortOrder.NameAsc) }
@@ -85,7 +84,8 @@ fun ClientListScreen(
         topBar = {
             ClientListTopAppBar(
                 currentSortOrder = currentSortOrder,
-                isSortMenuExpanded = isSortMenuExpanded,
+                onClick = viewModel::onEvent,
+                isMenuExpanded = viewModel.isSortOrderMenuExpanded
             )
         },
         floatingActionButton = {

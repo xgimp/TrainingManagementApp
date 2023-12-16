@@ -11,13 +11,14 @@ import online.bacovsky.trainingmanagement.util.UiText
 
 @Composable
 fun ClientSortOrderMenu(
-    isExpanded: MutableState<Boolean>,
+    onClick: (ClientListEvent) -> Unit,
     currentSortOrder: MutableState<SortOrder>,
+    isExpanded: Boolean
 ) {
     DropdownMenu(
-        expanded = isExpanded.value,
+        expanded = isExpanded,
         onDismissRequest = {
-            isExpanded.value = false
+            onClick(ClientListEvent.OnSortButtonClick)
         }
     ) {
         DropdownMenuItem(
@@ -26,7 +27,7 @@ fun ClientSortOrderMenu(
             },
             onClick = {
                 currentSortOrder.value = SortOrder.NameAsc
-                isExpanded.value = false
+                onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
@@ -35,7 +36,7 @@ fun ClientSortOrderMenu(
             },
             onClick = {
                 currentSortOrder.value = SortOrder.NameDesc
-                isExpanded.value = false
+                onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
@@ -44,7 +45,7 @@ fun ClientSortOrderMenu(
             },
             onClick = {
                 currentSortOrder.value = SortOrder.ClosestTraining
-                isExpanded.value = false
+                onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
@@ -53,7 +54,7 @@ fun ClientSortOrderMenu(
             },
             onClick = {
                 currentSortOrder.value = SortOrder.LastPaymentDesc
-                isExpanded.value = false
+                onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
@@ -62,7 +63,7 @@ fun ClientSortOrderMenu(
             },
             onClick = {
                 currentSortOrder.value = SortOrder.AvailableTrainingsDesc
-                isExpanded.value = false
+                onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
@@ -71,7 +72,7 @@ fun ClientSortOrderMenu(
             },
             onClick = {
                 currentSortOrder.value = SortOrder.AvailableTrainingsAsc
-                isExpanded.value = false
+                onClick(ClientListEvent.OnSortButtonClick)
             }
         )
     }

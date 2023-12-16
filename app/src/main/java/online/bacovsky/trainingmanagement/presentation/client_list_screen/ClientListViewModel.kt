@@ -1,5 +1,8 @@
 package online.bacovsky.trainingmanagement.presentation.client_list_screen
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import online.bacovsky.trainingmanagement.data.repository.ClientRepository
@@ -24,6 +27,9 @@ class ClientListViewModel @Inject constructor(
 
     private val _uiEvent = Channel<UiEvent>()
     val iuEvent = _uiEvent.receiveAsFlow()
+
+    var isSortOrderMenuExpanded by mutableStateOf(false)
+        private set
 
     private var lastDeletedClient: Client? = null
 
@@ -60,6 +66,9 @@ class ClientListViewModel @Inject constructor(
                         lastDeletedClient = null
                     }
                 }
+            }
+            ClientListEvent.OnSortButtonClick -> {
+                isSortOrderMenuExpanded = !isSortOrderMenuExpanded
             }
         }
     }

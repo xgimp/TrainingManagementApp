@@ -7,5 +7,6 @@ sealed class ClientListEvent {
     data object OnUndoDeleteClick: ClientListEvent()
     data object OnAddClientClick: ClientListEvent()
     data class OnClickOnClientRowItem(val clientId: Long?): ClientListEvent()
+    data object OnSortButtonClick: ClientListEvent()
 
 }
