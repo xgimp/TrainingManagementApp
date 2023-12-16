@@ -37,9 +37,9 @@ fun ClientListScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    // TODO: move this to viewModel
-    val currentSortOrder = remember { mutableStateOf<SortOrder>(SortOrder.NameAsc) }
-    val sortedClientList = when (currentSortOrder.value) {
+    val currentSortOrder = viewModel.currentSortOrder
+
+    val sortedClientList = when (currentSortOrder) {
         SortOrder.ClosestTraining -> clients.value.sortedWith(compareBy(nullsLast()) { it.closestTrainingStartAt })
         SortOrder.LastPaymentDesc -> clients.value.sortedByDescending { it.lastPaymentAt }
         SortOrder.NameAsc -> clients.value.sortedBy { it.clientName.lowercase() }

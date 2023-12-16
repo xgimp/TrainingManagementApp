@@ -18,11 +18,11 @@ import online.bacovsky.trainingmanagement.util.UiText
 @Composable
 fun ClientListTopAppBar(
     onClick: (ClientListEvent) -> Unit,
-    currentSortOrder: MutableState<SortOrder>,
+    currentSortOrder: SortOrder,
     isMenuExpanded: Boolean
 ) {
 
-    val currentOrderText = when(currentSortOrder.value) {
+    val currentOrderText = when(currentSortOrder) {
         SortOrder.ClosestTraining -> UiText.StringResource(resourceId = R.string.sort_by_closest_training_desc).asString()
         SortOrder.LastPaymentDesc -> UiText.StringResource(resourceId = R.string.sort_by_payment_desc).asString()
         SortOrder.NameAsc -> UiText.StringResource(resourceId = R.string.sort_by_name_asc).asString()

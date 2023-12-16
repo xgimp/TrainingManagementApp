@@ -8,5 +8,11 @@ sealed class ClientListEvent {
     data object OnAddClientClick: ClientListEvent()
     data class OnClickOnClientRowItem(val clientId: Long?): ClientListEvent()
     data object OnSortButtonClick: ClientListEvent()
+    data class OnSortByNameAscClick(val displayName: String): ClientListEvent()
+    data class OnSortByNameDescClick(val displayName: String): ClientListEvent()
+    data class OnSortByClosestTrainingClick(val displayName: String): ClientListEvent()
+    data class OnSortByLastPaymentDescClick(val displayName: String): ClientListEvent()
+    data class OnSortByAvailableTrainingsAscClick(val displayName: String): ClientListEvent()
+    data class OnSortByAvailableTrainingsDescClick(val displayName: String): ClientListEvent()
 
 }
