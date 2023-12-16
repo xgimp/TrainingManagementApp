@@ -37,8 +37,6 @@ fun ClientListScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val isSortMenuExpanded = viewModel.isSortOrderMenuExpanded
-
     // TODO: move this to viewModel
     val currentSortOrder = remember { mutableStateOf<SortOrder>(SortOrder.NameAsc) }
     val sortedClientList = when (currentSortOrder.value) {
