@@ -45,8 +45,6 @@ import java.util.Calendar
 import java.util.Locale
 
 const val TAG = "CalendarScreen"
-const val DEFAULT_MIN_HOUR = 6
-const val DEFAULT_MAX_HOUR = 22
 
 @Composable
 fun CalendarScreen(
@@ -60,6 +58,9 @@ fun CalendarScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+
+    val DEFAULT_MIN_HOUR = viewModel.DEFAULT_MIN_HOUR
+    val DEFAULT_MAX_HOUR = viewModel.DEFAULT_MAX_HOUR
 
     LaunchedEffect(key1 = true) {
         viewModel.canceledTrainingEvents.collect{event ->

@@ -65,7 +65,10 @@ class CalendarScreenViewModel @Inject constructor(
 
     var showTrainingDetailModal by mutableStateOf(false)
         private set
-    
+
+    val DEFAULT_MIN_HOUR = 6
+    val DEFAULT_MAX_HOUR = 22
+
     fun onEvent(event: CalendarScreenEvent) {
         when(event) {
             is CalendarScreenEvent.OnEventClick -> {
@@ -156,11 +159,17 @@ class CalendarScreenViewModel @Inject constructor(
             .filterIsInstance<CalendarEntity.Event>()
             .first { it.id == id }
 
-        val newEntity = existingEntity.copy(
-            startTime = newStartTime.toCalendar(),
-            endTime = newEndTime.toCalendar(),
-        )
-        updateEntity(newEntity)
+        if (newStartTime.hour >= DEFAULT_MIN_HOUR && newEndTime.hour <= DEFAULT_MAX_HOUR) {
+            val newEntity = existingEntity.copy(
+                startTime = newStartTime.toCalendar(),
+                endTime = newEndTime.toCalendar(),
+            )
+            updateEntity(newEntity)
+        }
+        else {
+            Log.d(TAG, "handleDrag: cannot move $existingEntity to new time")
+            updateEntity(existingEntity)
+        }
     }
 
     private fun updateEntity(newEntity: CalendarEntity.Event) {
