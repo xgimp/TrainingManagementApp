@@ -4,6 +4,7 @@ import androidx.room.Transaction
 import online.bacovsky.trainingmanagement.domain.model.Client
 import online.bacovsky.trainingmanagement.domain.model.ClientPayment
 import kotlinx.coroutines.flow.Flow
+import online.bacovsky.trainingmanagement.domain.model.ClientWithMetadata
 
 interface ClientRepository {
 
@@ -26,5 +27,7 @@ interface ClientRepository {
     suspend fun getBalanceByClientId(clientId: Long): Long
 
     fun getPaymentsByClientId(clientId: Long): Flow<List<ClientPayment>>
+
+    fun getClientsWithMetadata(): Flow<List<ClientWithMetadata>>
 
 }

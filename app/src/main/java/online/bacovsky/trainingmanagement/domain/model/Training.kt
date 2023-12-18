@@ -20,7 +20,7 @@ data class Training(
     val id: Long? = null,
 
     @ColumnInfo(index = true)
-    var clientId: Long,
+    val clientId: Long,
 
     val startTime: LocalDateTime,
 
