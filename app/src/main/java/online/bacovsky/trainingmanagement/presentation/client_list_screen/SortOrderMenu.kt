@@ -25,60 +25,60 @@ fun ClientSortOrderMenu(
     ) {
         DropdownMenuItem(
             text = {
+                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_name_asc).asString(context)
                 Text(text = currentOrderDisplayName)
             },
             onClick = {
-                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_name_asc).asString(context)
                 onClick(ClientListEvent.OnSortByNameAscClick(currentOrderDisplayName))
                 onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
             text = {
+                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_name_desc).asString(context)
                 Text(text = currentOrderDisplayName)
             },
             onClick = {
-                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_name_desc).asString(context)
                 onClick(ClientListEvent.OnSortByNameDescClick(currentOrderDisplayName))
                 onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
             text = {
+                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_closest_training_desc).asString(context)
                 Text(text = currentOrderDisplayName)
             },
             onClick = {
-                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_closest_training_desc).asString(context)
                 onClick(ClientListEvent.OnSortByClosestTrainingClick(currentOrderDisplayName))
                 onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
             text = {
+                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_payment_desc).asString(context)
                 Text(text = currentOrderDisplayName)
             },
             onClick = {
-                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_payment_desc).asString(context)
                 onClick(ClientListEvent.OnSortByLastPaymentDescClick(currentOrderDisplayName))
                 onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
             text = {
+                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_available_training_desc).asString(context)
                 Text(text = currentOrderDisplayName)
             },
             onClick = {
-                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_available_training_desc).asString(context)
                 onClick(ClientListEvent.OnSortByAvailableTrainingsDescClick(currentOrderDisplayName))
                 onClick(ClientListEvent.OnSortButtonClick)
             }
         )
         DropdownMenuItem(
             text = {
+                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_available_training_asc).asString(context)
                 Text(text = currentOrderDisplayName)
             },
             onClick = {
-                currentOrderDisplayName = UiText.StringResource(resourceId = R.string.sort_by_available_training_asc).asString(context)
                 onClick(ClientListEvent.OnSortByAvailableTrainingsAscClick(currentOrderDisplayName))
                 onClick(ClientListEvent.OnSortButtonClick)
             }

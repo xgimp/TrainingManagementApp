@@ -33,6 +33,7 @@ fun ClientListScreen(
 ) {
 
     val clients = viewModel.clientsWithMetadata.collectAsState(initial = emptyList())
+    var currentSortOrderDisplayName = viewModel.currentSortOrderDisplayName
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -80,10 +81,9 @@ fun ClientListScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             ClientListTopAppBar(
-//                currentSortOrder = currentSortOrder,
                 onClick = viewModel::onEvent,
                 isMenuExpanded = viewModel.isSortOrderMenuExpanded,
-                currentSortOrderDisplayName = viewModel.currentSortOrderDisplayName
+                currentSortOrderDisplayName = currentSortOrderDisplayName
             )
         },
         floatingActionButton = {
