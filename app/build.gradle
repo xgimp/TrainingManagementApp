@@ -12,8 +12,8 @@ android {
         applicationId "online.bacovsky.trainingmanagement"
         minSdk 27
         targetSdk 34
-        versionCode 100000
-        versionName "1.0"
+        versionCode 101000
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
