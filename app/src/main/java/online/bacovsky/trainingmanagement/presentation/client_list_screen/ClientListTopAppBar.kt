@@ -18,7 +18,6 @@ import online.bacovsky.trainingmanagement.R
 fun ClientListTopAppBar(
     onClick: (ClientListEvent) -> Unit,
     isMenuExpanded: Boolean,
-    currentSortOrderDisplayName: String
 ) {
 
     TopAppBar(
@@ -29,7 +28,6 @@ fun ClientListTopAppBar(
             )
         },
         actions = {
-            Text(text = currentSortOrderDisplayName)
             Box {
                 IconButton(
                     onClick = {

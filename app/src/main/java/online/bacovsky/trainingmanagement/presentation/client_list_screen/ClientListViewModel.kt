@@ -34,6 +34,7 @@ class ClientListViewModel @Inject constructor(
     var currentSortOrder by mutableStateOf<SortOrder>(SortOrder.NameAsc)
         private set
 
+    // TODO: show this in topAppBar
     var currentSortOrderDisplayName by mutableStateOf("")
         private set
 
