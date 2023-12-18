@@ -34,6 +34,9 @@ class ClientListViewModel @Inject constructor(
     var currentSortOrder by mutableStateOf<SortOrder>(SortOrder.NameAsc)
         private set
 
+    var currentSortOrderDisplayName by mutableStateOf("")
+        private set
+
     private var lastDeletedClient: Client? = null
 
     fun onEvent(event: ClientListEvent) {
@@ -76,21 +79,27 @@ class ClientListViewModel @Inject constructor(
 
             is ClientListEvent.OnSortByAvailableTrainingsAscClick -> {
                 currentSortOrder = SortOrder.AvailableTrainingsAsc
+                currentSortOrderDisplayName = event.displayName
             }
             is ClientListEvent.OnSortByAvailableTrainingsDescClick -> {
                 currentSortOrder = SortOrder.AvailableTrainingsDesc
+                currentSortOrderDisplayName = event.displayName
             }
             is ClientListEvent.OnSortByClosestTrainingClick -> {
                 currentSortOrder = SortOrder.ClosestTraining
+                currentSortOrderDisplayName = event.displayName
             }
             is ClientListEvent.OnSortByLastPaymentDescClick -> {
                 currentSortOrder = SortOrder.LastPaymentDesc
+                currentSortOrderDisplayName = event.displayName
             }
             is ClientListEvent.OnSortByNameAscClick -> {
                 currentSortOrder = SortOrder.NameAsc
+                currentSortOrderDisplayName = event.displayName
             }
             is ClientListEvent.OnSortByNameDescClick -> {
                 currentSortOrder = SortOrder.NameDesc
+                currentSortOrderDisplayName = event.displayName
             }
         }
     }
