@@ -36,9 +36,9 @@ fun ClientListScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val currentSortOrder = viewModel.currentSortOrder
+    var currentSortOrderDisplayName = viewModel.currentSortOrderDisplayName
 
-    val sortedClientList = when (currentSortOrder) {
+    val sortedClientList = when (viewModel.currentSortOrder) {
         SortOrder.ClosestTraining -> clients.value.sortedWith(compareBy(nullsLast()) { it.closestTrainingStartAt })
         SortOrder.LastPaymentDesc -> clients.value.sortedByDescending { it.lastPaymentAt }
         SortOrder.NameAsc -> clients.value.sortedBy { it.clientName.lowercase() }
@@ -82,6 +82,7 @@ fun ClientListScreen(
             ClientListTopAppBar(
                 onClick = viewModel::onEvent,
                 isMenuExpanded = viewModel.isSortOrderMenuExpanded,
+                currentSortOrderDisplayName = currentSortOrderDisplayName
             )
         },
         floatingActionButton = {

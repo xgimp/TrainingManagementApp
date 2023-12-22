@@ -1,5 +1,6 @@
 package online.bacovsky.trainingmanagement.presentation.client_list_screen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -77,7 +78,6 @@ class ClientListViewModel @Inject constructor(
             is ClientListEvent.OnSortButtonClick -> {
                 isSortOrderMenuExpanded = !isSortOrderMenuExpanded
             }
-
             is ClientListEvent.OnSortByAvailableTrainingsAscClick -> {
                 currentSortOrder = SortOrder.AvailableTrainingsAsc
                 currentSortOrderDisplayName = event.displayName
