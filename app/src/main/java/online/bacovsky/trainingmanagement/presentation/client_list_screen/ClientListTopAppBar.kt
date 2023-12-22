@@ -9,17 +9,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.stringResource
 import online.bacovsky.trainingmanagement.R
+import online.bacovsky.trainingmanagement.util.UiText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClientListTopAppBar(
     onClick: (ClientListEvent) -> Unit,
     isMenuExpanded: Boolean,
+    currentSortOrderDisplayName: String,
 ) {
-
     TopAppBar(
         title = {
             Text(
@@ -28,6 +28,13 @@ fun ClientListTopAppBar(
             )
         },
         actions = {
+            val defaultOrderName: String = UiText.StringResource(R.string.sort_by_name_asc).asString()
+
+            Text(
+                text = if (currentSortOrderDisplayName == "") defaultOrderName else currentSortOrderDisplayName,
+                maxLines = 1
+            )
+
             Box {
                 IconButton(
                     onClick = {
