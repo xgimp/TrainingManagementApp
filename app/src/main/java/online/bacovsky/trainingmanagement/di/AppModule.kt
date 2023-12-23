@@ -21,6 +21,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_1_2
 import javax.inject.Singleton
 
 @Module
@@ -34,7 +35,9 @@ object AppModule {
             appContext,
             AppDatabase::class.java,
             "app_db"
-        ).build()
+        )
+            .addMigrations(MIGRATION_1_2)
+            .build()
     }
 
     @Provides

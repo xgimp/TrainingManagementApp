@@ -21,6 +21,8 @@ data class Client(
 
     val balance: Long = 0L,
 
+    val telephoneNumber: String = "0",
+
     val createdAt: LocalDateTime = LocalDateTime.now()
 
 )
