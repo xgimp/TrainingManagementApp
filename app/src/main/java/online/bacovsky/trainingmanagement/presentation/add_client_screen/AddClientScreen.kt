@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountBalance
 import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Payments
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -101,6 +104,9 @@ fun AddClientScreen(
                 },
                 isError = state.nameError != null,
                 label = { Text(text = stringResource(id = R.string.full_name)) },
+                leadingIcon = {
+                    Icon(Icons.Outlined.Person, contentDescription = "Person Icon")
+                }
             )
             if (state.nameError != null) {
                 Text(
@@ -121,6 +127,9 @@ fun AddClientScreen(
                 label = {
                     Text(text = stringResource(id = R.string.price_for_training))
                 },
+                leadingIcon = {
+                    Icon(Icons.Outlined.Payments, contentDescription = "Payment Icon")
+                }
             )
             if (state.priceError != null) {
                 Text(
@@ -146,6 +155,9 @@ fun AddClientScreen(
                         text = stringResource(id = R.string.account_balance)
                     )
                 },
+                leadingIcon = {
+                    Icon(Icons.Outlined.AccountBalance, contentDescription = "Account Icon")
+                }
             )
             if (state.fundsError != null) {
                 Text(

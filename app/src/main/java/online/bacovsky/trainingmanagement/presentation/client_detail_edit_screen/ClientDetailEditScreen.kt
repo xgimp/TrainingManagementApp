@@ -13,6 +13,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.AttachMoney
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Payments
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -89,18 +91,6 @@ fun ClientDetailEditScreen(
                     )
                 },
                 actions = {
-//                    IconButton(
-//                        onClick = {
-//                            onNavigate(
-//                                UiEvent.Navigate(
-//                                    Routes.CLIENT_PAYMENT_HISTORY_SCREEN
-//                                        .replace("{clientId}", "${state.id}")
-//                                )
-//                            )
-//                        }
-//                    ) {
-//                        Icon(Icons.Outlined.List, contentDescription = "Add/Remove Money")
-//                    }
                     IconButton(
                         onClick = {
                             onNavigate(
@@ -169,6 +159,9 @@ fun ClientDetailEditScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.name,
                 label = { Text(text = stringResource(id = R.string.full_name)) },
+                leadingIcon = {
+                    Icon(Icons.Outlined.Person, contentDescription = "Person Icon")
+                },
                 onValueChange = { name ->
                     viewModel.onEvent(EditClientFormEvent.OnNameChanged(name))
                 },
@@ -186,6 +179,9 @@ fun ClientDetailEditScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.price,
                 label = { Text(text = stringResource(id = R.string.price_for_training)) },
+                leadingIcon = {
+                    Icon(Icons.Outlined.Payments, contentDescription = "Person Icon")
+                },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 onValueChange = { price ->
                     viewModel.onEvent(EditClientFormEvent.OnPricePerTrainingChanged(price))
