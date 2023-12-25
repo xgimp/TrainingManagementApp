@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.AttachMoney
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -171,6 +172,26 @@ fun ClientDetailEditScreen(
             if (state.nameError != null) {
                 Text(
                     text = state.nameError.asString(),
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = state.phoneNumber,
+                label = { Text(text = stringResource(id = R.string.phone_number)) },
+                leadingIcon = {
+                    Icon(Icons.Outlined.Phone, contentDescription = "Phone Icon")
+                },
+                onValueChange = { phoneNumber ->
+                    viewModel.onEvent(EditClientFormEvent.OnPhoneNumberChanged(phoneNumber))
+                },
+                isError = state.phoneNumberError != null
+            )
+
+            if (state.phoneNumberError != null) {
+                Text(
+                    text = state.phoneNumberError.asString(),
                     color = MaterialTheme.colorScheme.error
                 )
             }

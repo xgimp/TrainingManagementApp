@@ -72,15 +72,7 @@ class ClientRepositoryImpl(
     }
 
     override suspend fun update(client: Client) {
-        clientDao.updateClient(
-            Client(
-                id = client.id,
-                name = client.name,
-                trainingPrice = client.trainingPrice,
-                balance = client.balance,
-                isDeleted = client.isDeleted
-            )
-        )
+        clientDao.updateClient(client)
     }
 
     override suspend fun getBalanceByClientId(clientId: Long): Long {

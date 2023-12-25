@@ -61,4 +61,6 @@
     <string name="sort_by_payment_desc">Datum nejbliší platby ↓</string>
     <string name="sort_by_available_training_asc">Počet tréninků ↑</string>
     <string name="sort_by_available_training_desc">Počet tréninků ↓</string>
+    <string name="invalid_phone_number">Neplatné telefonní číslo</string>
+    <string name="phone_number">Telefonní číslo</string>
 </resources>

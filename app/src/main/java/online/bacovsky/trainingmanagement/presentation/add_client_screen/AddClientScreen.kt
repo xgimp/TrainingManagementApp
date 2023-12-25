@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.AccountBalance
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -114,6 +115,28 @@ fun AddClientScreen(
                     color = MaterialTheme.colorScheme.error
                 )
             }
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = state.phoneNumber,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                onValueChange = {
+                    viewModel.onEvent(AddClientFormEvent.PhoneNumberChanged(it))
+                },
+                isError = state.phoneNumberError != null,
+                label = { Text(text = stringResource(id = R.string.phone_number)) },
+                leadingIcon = {
+                    Icon(Icons.Outlined.Phone, contentDescription = "Phone Icon")
+                }
+            )
+            if (state.phoneNumberError != null) {
+                Text(
+                    text =  state.phoneNumberError.asString(),
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+
 
             OutlinedTextField(
                 modifier = Modifier

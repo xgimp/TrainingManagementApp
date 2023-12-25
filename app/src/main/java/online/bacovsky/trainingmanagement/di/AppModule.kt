@@ -22,6 +22,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_1_2
+import online.bacovsky.trainingmanagement.util.validation.ValidatePhoneNumber
 import javax.inject.Singleton
 
 @Module
@@ -91,6 +92,11 @@ object AppModule {
     @Provides
     fun provideTrainingDateValidation(): ValidateTrainingStartDate {
         return ValidateTrainingStartDate()
+    }
+
+    @Provides
+    fun provideTelephoneNumberValidation(): ValidatePhoneNumber {
+        return ValidatePhoneNumber()
     }
 
 }
