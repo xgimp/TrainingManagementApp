@@ -180,6 +180,7 @@ fun ClientDetailEditScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.phoneNumber,
                 label = { Text(text = stringResource(id = R.string.phone_number)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 leadingIcon = {
                     Icon(Icons.Outlined.Phone, contentDescription = "Phone Icon")
                 },
