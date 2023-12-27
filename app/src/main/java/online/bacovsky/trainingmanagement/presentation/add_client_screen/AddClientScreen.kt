@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AccountBalance
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Payments
 import androidx.compose.material.icons.outlined.Person
@@ -179,7 +179,10 @@ fun AddClientScreen(
                     )
                 },
                 leadingIcon = {
-                    Icon(Icons.Outlined.AccountBalance, contentDescription = "Account Icon")
+                    Icon(
+                        imageVector = Icons.Outlined.AccountBalanceWallet,
+                        contentDescription = "Client balance icon"
+                    )
                 }
             )
             if (state.fundsError != null) {

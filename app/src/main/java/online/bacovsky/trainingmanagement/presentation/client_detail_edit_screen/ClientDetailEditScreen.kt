@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.AttachMoney
 import androidx.compose.material.icons.outlined.Delete
@@ -218,10 +219,21 @@ fun ClientDetailEditScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.padding(8.dp))
-
-            Text(text = stringResource(id = R.string.account_balance))
-            Text(text = "${state.balance} $currencySymbol")
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = "${state.balance} $currencySymbol",
+                readOnly = true,
+                onValueChange = {},
+                label = {
+                    Text(text = stringResource(id = R.string.account_balance))
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.AccountBalanceWallet,
+                        contentDescription = "Client balance icon"
+                    )
+                }
+            )
 
             Spacer(modifier = Modifier.padding(8.dp))
 
