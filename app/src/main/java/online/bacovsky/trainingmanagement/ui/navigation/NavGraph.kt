@@ -113,7 +113,11 @@ fun AppNavGraph(
             )
         }
         composable(Routes.SMS_SCREEN) {
-            SmsScreen()
+            SmsScreen(
+                onNavigate = {
+                    navController.navigate(it.route)
+                }
+            )
         }
     }
 }

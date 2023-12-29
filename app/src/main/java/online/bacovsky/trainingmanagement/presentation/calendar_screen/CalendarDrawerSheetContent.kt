@@ -146,6 +146,7 @@ fun CalendarDrawerSheetContent(
             modifier = Modifier
                 .padding(NavigationDrawerItemDefaults.ItemPadding),
             icon = { Icon(imageVector = Icons.Outlined.Sms, contentDescription = "Send SMS" )},
+            // TODO: make this translatable
             label = { Text(text = "SMS") },
             selected = false,
             onClick = {

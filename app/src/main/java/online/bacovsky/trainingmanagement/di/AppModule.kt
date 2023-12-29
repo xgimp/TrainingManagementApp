@@ -22,6 +22,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_1_2
+import online.bacovsky.trainingmanagement.data.repository.SmsDataRepository
+import online.bacovsky.trainingmanagement.data.repository.SmsDataRepositoryImpl
 import online.bacovsky.trainingmanagement.util.validation.ValidatePhoneNumber
 import javax.inject.Singleton
 
@@ -57,6 +59,12 @@ object AppModule {
     @Singleton
     fun provideCalendarEventRepository(db: AppDatabase): CalendarEventRepository {
         return CalendarEventRepositoryImpl(db.trainingDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSmsDataRepository(db: AppDatabase): SmsDataRepository {
+        return SmsDataRepositoryImpl(db.trainingDao)
     }
 
     @Provides
