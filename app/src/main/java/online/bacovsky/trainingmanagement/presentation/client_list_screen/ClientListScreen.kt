@@ -36,7 +36,7 @@ fun ClientListScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    var currentSortOrderDisplayName = viewModel.currentSortOrderDisplayName
+    val currentSortOrderDisplayName = viewModel.currentSortOrderDisplayName
 
     val sortedClientList = when (viewModel.currentSortOrder) {
         SortOrder.ClosestTraining -> clients.value.sortedWith(compareBy(nullsLast()) { it.closestTrainingStartAt })

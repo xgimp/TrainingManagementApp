@@ -64,6 +64,9 @@ class ClientListViewModel @Inject constructor(
                         .replace("{clientId}", "${event.clientId}")
                 ))
             }
+            is ClientListEvent.OnSmsSendClick -> {
+                sendUiEvent(UiEvent.Navigate(Routes.SMS_SCREEN))
+            }
             is ClientListEvent.OnUndoDeleteClick -> {
                 val client = lastDeletedClient?.copy(isDeleted = false)
                 viewModelScope.launch {

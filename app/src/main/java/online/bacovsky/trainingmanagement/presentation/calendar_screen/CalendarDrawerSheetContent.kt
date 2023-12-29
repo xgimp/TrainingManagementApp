@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.FitnessCenter
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Sms
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
@@ -21,6 +22,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
@@ -28,19 +30,38 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.Flow
 import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.domain.model.Client
 import online.bacovsky.trainingmanagement.domain.model.setBackgroundByBalance
 import online.bacovsky.trainingmanagement.presentation.main_screen.SelectedClientState
 import kotlinx.coroutines.launch
+import online.bacovsky.trainingmanagement.presentation.client_list_screen.ClientListEvent
+import online.bacovsky.trainingmanagement.util.UiEvent
 
 @Composable
 fun CalendarDrawerSheetContent(
     items: State<List<Client>>,
     selectedClient: MutableState<SelectedClientState>,
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    onEvent: (ClientListEvent) -> Unit,
+    onNavigate: (UiEvent.Navigate) -> Unit,
+    uiEvents: Flow<UiEvent>
 ) {
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        uiEvents.collect {event ->
+            when(event) {
+                is UiEvent.Navigate -> {
+                    onNavigate(event)
+                }
+                else -> {}
+            }
+
+        }
+    }
+
 
     Text(
         text = stringResource(id = R.string.client_list),
@@ -121,13 +142,18 @@ fun CalendarDrawerSheetContent(
                 )
             }
         }
-//        NavigationDrawerItem(
-//            modifier = Modifier
-//                .padding(NavigationDrawerItemDefaults.ItemPadding),
-//            icon = { Icon(imageVector = Icons.Outlined.Info, contentDescription = "About App" )},
-//            label = { Text(text = "O Aplikaci") },
-//            selected = false,
-//            onClick = { /*TODO*/ }
-//        )
+        NavigationDrawerItem(
+            modifier = Modifier
+                .padding(NavigationDrawerItemDefaults.ItemPadding),
+            icon = { Icon(imageVector = Icons.Outlined.Sms, contentDescription = "Send SMS" )},
+            label = { Text(text = "SMS") },
+            selected = false,
+            onClick = {
+                scope.launch {
+                    onEvent(ClientListEvent.OnSmsSendClick)
+                    drawerState.close()
+                }
+            }
+        )
     }
 }
