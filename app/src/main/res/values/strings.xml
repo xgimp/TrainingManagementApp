@@ -62,4 +62,6 @@
     <string name="sort_by_available_training_desc">Available trainings ↓</string>
     <string name="invalid_phone_number">Invalid Phone Number</string>
     <string name="phone_number">Phone number</string>
+    <string name="sms_greeting">Hello</string>
+    <string name="sms_footer">Have a nice day</string>
 </resources>

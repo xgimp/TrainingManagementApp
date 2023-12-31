@@ -8,6 +8,7 @@ import online.bacovsky.trainingmanagement.ui.theme.futureCalendarEvent
 import online.bacovsky.trainingmanagement.ui.theme.lowBalanceEventColor
 import online.bacovsky.trainingmanagement.ui.theme.pastCalendarEvent
 import com.alamkanak.weekview.WeekView
+import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime

@@ -63,4 +63,6 @@
     <string name="sort_by_available_training_desc">Počet tréninků ↓</string>
     <string name="invalid_phone_number">Neplatné telefonní číslo</string>
     <string name="phone_number">Telefonní číslo</string>
+    <string name="sms_greeting">Ahoj</string>
+    <string name="sms_footer">Měj se hezky</string>
 </resources>
