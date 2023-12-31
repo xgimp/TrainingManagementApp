@@ -1,20 +1,23 @@
 package online.bacovsky.trainingmanagement.presentation.sms_screen
 
-import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import online.bacovsky.trainingmanagement.domain.model.Client
+import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import online.bacovsky.trainingmanagement.domain.model.Training
 import online.bacovsky.trainingmanagement.util.UiEvent
 
@@ -23,7 +26,7 @@ fun SmsScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: SmsScreenViewModel = hiltViewModel()
 ) {
-    val clientsWithScheduledTrainings = viewModel.myList.collectAsState(initial = emptyMap())
+    val clientsWithScheduledTrainings = viewModel.clientTrainingList
     Scaffold(
         topBar = {
             SmsScreenTopAppbar(onNavigate = onNavigate)
@@ -33,18 +36,57 @@ fun SmsScreen(
             modifier = Modifier
                 .padding(paddingValues)
         ) {
-            Column {
-                clientsWithScheduledTrainings.value.forEach{ (client: Client, listOfTrainings: List<Training>) ->
+            CategorizedLazyColumn(items = clientsWithScheduledTrainings)
+        }
+    }
+}
 
-                    Text(text = client.name)
-                    Spacer(modifier = Modifier.height(16.dp))
+@Composable
+fun Header(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        maxLines = 1,
+        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.primaryContainer)
+            .padding(16.dp)
+    )
 
-                    Column {
-                        listOfTrainings.forEach {
-                            Text(text = it.startTime.toString())
-                        }
-                    }
-                }
+}
+
+
+@Composable
+fun Item(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+    )
+
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun CategorizedLazyColumn(
+    items: List<ClientWithScheduledTrainings>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier) {
+        items.forEach { item: ClientWithScheduledTrainings ->
+            stickyHeader {
+                Header(text = item.client.name)
+            }
+            items(item.trainings) {training: Training ->
+                Item(text = training.startTime.toString())
             }
         }
     }

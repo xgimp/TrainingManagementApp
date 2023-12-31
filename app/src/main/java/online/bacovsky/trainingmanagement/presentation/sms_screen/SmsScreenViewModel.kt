@@ -1,15 +1,11 @@
 package online.bacovsky.trainingmanagement.presentation.sms_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.data.repository.SmsDataRepository
-import online.bacovsky.trainingmanagement.domain.model.Client
-import online.bacovsky.trainingmanagement.domain.model.Training
+import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -23,12 +19,23 @@ class SmsScreenViewModel @Inject constructor(
     private val smsDataRepository: SmsDataRepository
 ): ViewModel() {
 
-    var myList: Flow<Map<Client, List<Training>>> = emptyFlow()
+    var clientTrainingList: List<ClientWithScheduledTrainings> = emptyList()
+
     init {
         viewModelScope.launch {
-            myList = smsDataRepository.getClientListWithTrainingsBetweenTime(
-                startTime = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)).toLocalDate().atStartOfDay(),
-                endTime = LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).toLocalDate().atTime(LocalTime.MAX)
+            val nexMonday = LocalDateTime.now()
+                .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+                .toLocalDate()
+                .atStartOfDay()
+
+            val nextSunday = LocalDateTime.now()
+                .with(TemporalAdjusters.next(DayOfWeek.SUNDAY))
+                .toLocalDate()
+                .atTime(LocalTime.MAX)
+
+            clientTrainingList = smsDataRepository.getClientListWithTrainingsBetweenTime(
+                startTime = nexMonday,
+                endTime = nextSunday
             )
         }
     }
