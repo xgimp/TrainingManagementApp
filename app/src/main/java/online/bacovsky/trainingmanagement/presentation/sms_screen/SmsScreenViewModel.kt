@@ -1,5 +1,7 @@
 package online.bacovsky.trainingmanagement.presentation.sms_screen
 
+import android.content.Context
+import android.telephony.SmsManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +22,7 @@ class SmsScreenViewModel @Inject constructor(
 ): ViewModel() {
 
     var clientTrainingList: List<ClientWithScheduledTrainings> = emptyList()
+        private set
 
     init {
         viewModelScope.launch {
@@ -38,6 +41,11 @@ class SmsScreenViewModel @Inject constructor(
                 endTime = nextSunday
             )
         }
+    }
+
+    private fun sendSms(telNumber: String, smsText: String, context: Context) {
+        val smsManager: SmsManager = context.getSystemService(SmsManager::class.java)
+        smsManager.sendTextMessage(telNumber, null, smsText, null, null)
     }
 
 //    private val _uiEvent = Channel<UiEvent>()

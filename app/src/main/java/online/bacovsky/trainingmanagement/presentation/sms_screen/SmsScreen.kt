@@ -1,6 +1,5 @@
 package online.bacovsky.trainingmanagement.presentation.sms_screen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -71,13 +70,21 @@ fun Item(
         val context = LocalContext.current
 
         Header(text = item.client.name)
-        Text(text = item.trainingsToSmsText(context))
+        Text(
+            modifier = modifier
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp,
+                    bottom = 8.dp
+                ),
+            text = item.trainingsToSmsText(context)
+        )
     }
     Spacer(modifier = modifier.height(8.dp))
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategorizedLazyColumn(
     items: List<ClientWithScheduledTrainings>,
