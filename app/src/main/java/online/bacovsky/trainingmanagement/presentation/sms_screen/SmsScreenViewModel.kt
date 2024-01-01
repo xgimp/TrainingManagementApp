@@ -2,6 +2,7 @@ package online.bacovsky.trainingmanagement.presentation.sms_screen
 
 import android.content.Context
 import android.telephony.SmsManager
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,13 +27,13 @@ class SmsScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            
             val nexMonday = LocalDateTime.now()
                 .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
                 .toLocalDate()
                 .atStartOfDay()
 
-            val nextSunday = LocalDateTime.now()
-                .with(TemporalAdjusters.next(DayOfWeek.SUNDAY))
+            val nextSunday = nexMonday.with(TemporalAdjusters.next(DayOfWeek.SUNDAY))
                 .toLocalDate()
                 .atTime(LocalTime.MAX)
 
