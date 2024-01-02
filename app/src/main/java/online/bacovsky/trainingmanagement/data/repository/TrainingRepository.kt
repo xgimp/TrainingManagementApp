@@ -1,8 +1,10 @@
 package online.bacovsky.trainingmanagement.data.repository
 
 import androidx.room.Transaction
+import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import online.bacovsky.trainingmanagement.domain.model.Training
 import online.bacovsky.trainingmanagement.domain.model.TrainingWithClient
+import java.time.LocalDateTime
 
 interface TrainingRepository {
 
@@ -23,4 +25,8 @@ interface TrainingRepository {
     
     @Transaction
     suspend fun insertTrainingAndLogTransaction(training: TrainingWithClient, paymentNote: String)
+    suspend fun getClientListWithTrainingsBetweenTime(
+        startTime: LocalDateTime,
+        endTime: LocalDateTime
+    ): List<ClientWithScheduledTrainings>
 }

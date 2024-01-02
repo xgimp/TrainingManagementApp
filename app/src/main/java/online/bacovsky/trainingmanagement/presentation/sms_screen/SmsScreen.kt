@@ -27,11 +27,12 @@ fun SmsScreen(
     viewModel: SmsScreenViewModel = hiltViewModel()
 ) {
     val clientsWithScheduledTrainings = viewModel.clientTrainingList
+
     Scaffold(
         topBar = {
             SmsScreenTopAppbar(
                 onNavigate = onNavigate,
-                onEvent = viewModel::onEvent
+                onEvent = viewModel::onEvent,
             )
         },
     ) { paddingValues: PaddingValues ->

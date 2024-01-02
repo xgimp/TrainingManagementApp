@@ -1,14 +1,13 @@
 package online.bacovsky.trainingmanagement.presentation.sms_screen
 
-import android.content.Context
-import android.telephony.SmsManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import online.bacovsky.trainingmanagement.data.repository.SmsDataRepository
+import online.bacovsky.trainingmanagement.data.repository.SmsRepository
+import online.bacovsky.trainingmanagement.data.repository.TrainingRepository
 import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import java.time.DayOfWeek
 import java.time.LocalDateTime
@@ -20,7 +19,8 @@ const val TAG = "SmsScreenViewModel"
 
 @HiltViewModel
 class SmsScreenViewModel @Inject constructor(
-    private val smsDataRepository: SmsDataRepository
+    private val trainingRepository: TrainingRepository,
+    private val smsRepository: SmsRepository
 ): ViewModel() {
 
     var clientTrainingList: List<ClientWithScheduledTrainings> = emptyList()
@@ -38,7 +38,7 @@ class SmsScreenViewModel @Inject constructor(
                 .toLocalDate()
                 .atTime(LocalTime.MAX)
 
-            clientTrainingList = smsDataRepository.getClientListWithTrainingsBetweenTime(
+            clientTrainingList = trainingRepository.getClientListWithTrainingsBetweenTime(
                 startTime = nexMonday,
                 endTime = nextSunday
             )
@@ -52,7 +52,7 @@ class SmsScreenViewModel @Inject constructor(
                     viewModelScope.launch {
                         val telNumber = it.client.telephoneNumber
                         val smsText: String = it.trainingsToSmsText(event.context)
-                        sendSms(telNumber = telNumber, smsText = smsText, context = event.context)
+                        sendSms(telNumber = telNumber, smsText = smsText)
                         Log.d(TAG, "onEvent: sms was send")
                         Log.d(TAG, "sleeping...")
                         delay(1000)
@@ -64,9 +64,8 @@ class SmsScreenViewModel @Inject constructor(
         }
     }
 
-    private fun sendSms(telNumber: String, smsText: String, context: Context) {
-        val smsManager: SmsManager = context.getSystemService(SmsManager::class.java)
-        smsManager.sendTextMessage(telNumber, null, smsText, null, null)
+    private fun sendSms(telNumber: String, smsText: String) {
+        smsRepository.sendSms(telNumber = telNumber, smsText = smsText)
     }
 //    private val _uiEvent = Channel<UiEvent>()
 //    val iuEvent = _uiEvent.receiveAsFlow()

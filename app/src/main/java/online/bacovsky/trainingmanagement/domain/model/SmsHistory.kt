@@ -10,7 +10,7 @@ import java.time.LocalDateTime
     foreignKeys = [ForeignKey(
         entity = Client::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("clientId"),
+        childColumns = arrayOf("sentToClient"),
         onDelete = ForeignKey.RESTRICT
     )]
 )
@@ -19,10 +19,12 @@ data class SmsHistory(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
 
-    val smsText: String,
+    @ColumnInfo(index = true)
+    val sentToClient: Long,
 
     val sentAt: LocalDateTime = LocalDateTime.now(),
 
-//    @ColumnInfo(index = true)
-    val sentToClient: Long
+    val smsText: String,
+
+    val success: Boolean
 )
