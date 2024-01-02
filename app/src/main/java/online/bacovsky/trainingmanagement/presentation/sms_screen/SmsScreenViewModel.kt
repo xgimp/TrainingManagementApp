@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.data.repository.SmsDataRepository
 import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
@@ -44,11 +45,29 @@ class SmsScreenViewModel @Inject constructor(
         }
     }
 
+    fun onEvent(event: SmsScreenEvent) {
+        when(event) {
+            is SmsScreenEvent.OnBulkSmsSendClick -> {
+                clientTrainingList.forEach {
+                    viewModelScope.launch {
+                        val telNumber = it.client.telephoneNumber
+                        val smsText: String = it.trainingsToSmsText(event.context)
+                        sendSms(telNumber = telNumber, smsText = smsText, context = event.context)
+                        Log.d(TAG, "onEvent: sms was send")
+                        Log.d(TAG, "sleeping...")
+                        delay(1000)
+                        Log.d(TAG, "onEvent: done")
+                    }
+
+                }
+            }
+        }
+    }
+
     private fun sendSms(telNumber: String, smsText: String, context: Context) {
         val smsManager: SmsManager = context.getSystemService(SmsManager::class.java)
         smsManager.sendTextMessage(telNumber, null, smsText, null, null)
     }
-
 //    private val _uiEvent = Channel<UiEvent>()
 //    val iuEvent = _uiEvent.receiveAsFlow()
 

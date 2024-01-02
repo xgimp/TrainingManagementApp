@@ -14,17 +14,15 @@ import java.time.LocalDateTime
         onDelete = ForeignKey.RESTRICT
     )]
 )
-data class ClientPayment(
+data class SmsHistory(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
 
-    @ColumnInfo(index = true)
-    val clientId: Long,
+    val smsText: String,
 
-    val amount: Long,
+    val sentAt: LocalDateTime = LocalDateTime.now(),
 
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-
-    val note: String
+//    @ColumnInfo(index = true)
+    val sentToClient: Long
 )

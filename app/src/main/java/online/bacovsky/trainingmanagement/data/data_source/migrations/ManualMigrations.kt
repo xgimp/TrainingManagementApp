@@ -13,3 +13,23 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         )
     }
 }
+
+
+val MIGRATION_2_3 = object : Migration(1, 2) {
+
+    override fun migrate(db: SupportSQLiteDatabase) {
+
+        db.execSQL(
+            """
+                CREATE TABLE IF NOT EXISTS SmsHistory (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    smsText TEXT NOT NULL,
+                    sentAt TEXT NOT NULL,
+                    clientId INTEGER NOT NULL,
+                    FOREIGN KEY (clientId) REFERENCES Client(id) ON DELETE RESTRICT
+                );
+
+            """.trimIndent()
+        )
+    }
+}

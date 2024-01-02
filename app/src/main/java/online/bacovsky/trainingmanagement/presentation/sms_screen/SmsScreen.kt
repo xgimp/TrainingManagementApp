@@ -29,7 +29,10 @@ fun SmsScreen(
     val clientsWithScheduledTrainings = viewModel.clientTrainingList
     Scaffold(
         topBar = {
-            SmsScreenTopAppbar(onNavigate = onNavigate)
+            SmsScreenTopAppbar(
+                onNavigate = onNavigate,
+                onEvent = viewModel::onEvent
+            )
         },
     ) { paddingValues: PaddingValues ->
         Box(
@@ -60,7 +63,7 @@ fun Header(
 
 
 @Composable
-fun Item(
+fun SMSPreviewItem(
     item: ClientWithScheduledTrainings,
     modifier: Modifier = Modifier
 ) {
@@ -92,7 +95,7 @@ fun CategorizedLazyColumn(
 ) {
     LazyColumn(modifier) {
         items(items) {
-            Item(item = it)
+            SMSPreviewItem(item = it)
         }
     }
 }
