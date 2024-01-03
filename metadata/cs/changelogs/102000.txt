@@ -1,0 +1,2 @@
+* ModalNavigationDrawer se po stisknutí klávesy zpět zavře, namísto ukončení aplikace
+* na obrazovce "Klienti" ze zobrazuje aktuálně vybraný filtr
