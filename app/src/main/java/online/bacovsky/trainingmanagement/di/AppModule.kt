@@ -63,8 +63,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSmsDataRepository(): SmsRepository {
-        return SmsDataRepositoryImpl()
+    fun provideSmsDataRepository(@ApplicationContext appContext: Context): SmsRepository {
+        return SmsDataRepositoryImpl(appContext)
     }
 
     @Provides
