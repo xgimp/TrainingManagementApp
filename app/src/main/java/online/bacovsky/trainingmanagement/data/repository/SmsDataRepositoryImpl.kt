@@ -34,7 +34,7 @@ class SmsDataRepositoryImpl(
         // This is necessary for sent SMS to show in default SMS application
         val values = ContentValues()
         values.put("address", telNumber) // phone number to send
-        values.put("date", System.currentTimeMillis().toString() + "")
+        values.put("date", System.currentTimeMillis().toString())
         values.put("read", "1") // if you want to mark is as unread set to 0
         values.put("type", "2") // 2 means sent message
         values.put("body", smsText)
