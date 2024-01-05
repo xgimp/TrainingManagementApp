@@ -1,9 +1,16 @@
 package online.bacovsky.trainingmanagement.presentation
 
+import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.telephony.SmsManager
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,12 +31,32 @@ class MainActivity : ComponentActivity() {
     lateinit var roomBackup: RoomBackup
 
     private fun requestPermission() {
-        val permissionStr = "android.permission.SEND_SMS"
-        if (ContextCompat.checkSelfPermission(
+        when {
+            ContextCompat.checkSelfPermission(
                 this,
-                permissionStr
-            ) != PackageManager.PERMISSION_GRANTED
-        ) ActivityCompat.requestPermissions(this, arrayOf(permissionStr), 1)
+                Manifest.permission.SEND_SMS
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // You can use the API that requires the permission.
+                Log.d(TAG, "requestPermission: permission was already granted")
+
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.SEND_SMS) -> {
+                // In an educational UI, explain to the user why your app requires this
+                // permission for a specific feature to behave as expected, and what
+                // features are disabled if it's declined. In this UI, include a
+                // "cancel" or "no thanks" button that lets the user continue
+                // using your app without granting the permission.
+                Log.d(TAG, "requestPermission: should show educational UI")
+//                requestPermissionLauncher.launch(Manifest.permission.SEND_SMS)
+            }
+            else -> {
+                // You can directly ask for the permission.
+                // The registered ActivityResultCallback gets the result of this request.
+//                requestPermissionLauncher.launch(Manifest.permission.SEND_SMS)
+            }
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

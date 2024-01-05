@@ -1,7 +1,5 @@
 package online.bacovsky.trainingmanagement.presentation.sms_screen
 
-import android.content.Context
-import android.telephony.SmsManager
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Send
@@ -12,11 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.getSystemService
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
 import online.bacovsky.trainingmanagement.util.Routes
 import online.bacovsky.trainingmanagement.util.UiEvent
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun SmsScreenTopAppbar(
     onNavigate: (UiEvent.Navigate) -> Unit,

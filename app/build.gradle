@@ -73,7 +73,7 @@ dependencies {
 
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:1.5.4"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     implementation 'androidx.hilt:hilt-navigation-compose:1.1.0'
 
@@ -106,4 +106,6 @@ dependencies {
     // Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
+    // Permissions
+    implementation "com.google.accompanist:accompanist-permissions:0.32.0"
 }
