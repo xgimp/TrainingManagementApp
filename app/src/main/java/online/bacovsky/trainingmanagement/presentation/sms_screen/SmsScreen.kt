@@ -46,11 +46,14 @@ fun SmsScreen(
                 if (smsPermissionState.status.shouldShowRationale) {
                         smsPermissionState.launchPermissionRequest()
                     Toast.makeText(context, "show  rationale", Toast.LENGTH_LONG).show()
-                } else {
+                }
+                else {
+//                    show modal and then permission request
+                    smsPermissionState.launchPermissionRequest()
                     Toast.makeText(context, "permission denied", Toast.LENGTH_LONG).show()
                 }
             }
-            PermissionStatus.Granted -> {
+            is PermissionStatus.Granted -> {
                 Toast.makeText(context, "permission granted", Toast.LENGTH_LONG).show()
             }
         }
