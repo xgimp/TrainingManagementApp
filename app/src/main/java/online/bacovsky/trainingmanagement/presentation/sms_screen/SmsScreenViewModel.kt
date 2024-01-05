@@ -1,14 +1,9 @@
 package online.bacovsky.trainingmanagement.presentation.sms_screen
 
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.TrainingRepository
@@ -21,7 +16,6 @@ import javax.inject.Inject
 
 const val TAG = "SmsScreenViewModel"
 
-@OptIn(ExperimentalPermissionsApi::class)
 @HiltViewModel
 class SmsScreenViewModel @Inject constructor(
     private val trainingRepository: TrainingRepository,
@@ -58,7 +52,9 @@ class SmsScreenViewModel @Inject constructor(
                         val telNumber = it.client.telephoneNumber
                         val smsText: String = it.trainingsToSmsText(event.context)
                         sendSms(telNumber, smsText)
-                        delay(1000)
+
+                        // we can send only one SMS per second
+                        Thread.sleep(1_000)
                     }
 
                 }

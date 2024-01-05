@@ -11,7 +11,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
 import online.bacovsky.trainingmanagement.util.Routes
 import online.bacovsky.trainingmanagement.util.UiEvent
 
@@ -20,6 +19,7 @@ import online.bacovsky.trainingmanagement.util.UiEvent
 fun SmsScreenTopAppbar(
     onNavigate: (UiEvent.Navigate) -> Unit,
     onEvent: (SmsScreenEvent) -> Unit,
+    isSendButtonEnabled: Boolean,
 ) {
     val context = LocalContext.current
 
@@ -40,6 +40,7 @@ fun SmsScreenTopAppbar(
         },
         actions = {
             IconButton(
+                enabled = isSendButtonEnabled,
                 onClick = {
                     onEvent(SmsScreenEvent.OnBulkSmsSendClick(context))
                 }
