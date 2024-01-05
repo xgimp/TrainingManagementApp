@@ -112,7 +112,7 @@ class TrainingRepositoryImpl (
         return clientTrainingMap.map {
             ClientWithScheduledTrainings(
                 client = it.key,
-                trainings = it.value
+                trainings = it.value.sortedBy { training -> training.startTime }
             )
         }.sortedBy { it.client.name }
     }
