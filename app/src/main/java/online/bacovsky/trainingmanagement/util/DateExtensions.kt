@@ -62,13 +62,16 @@ internal fun LocalDate.toLocalizedFormat(): String {
 
 fun TrainingWithClient.toCalendarEntity(): CalendarEntity.Event {
 
-    val eventColor = if ((client.balance <= client.trainingPrice) && training.startTime > LocalDateTime.now())
-        lowBalanceEventColor
-    else if (training.startTime <= LocalDateTime.now() && client.balance <= client.trainingPrice)
-        pastLowBalanceEventColor
-    else if (training.startTime <= LocalDateTime.now())
-        pastCalendarEvent
-    else futureCalendarEvent
+    val isLowBalance = client.balance <= client.trainingPrice
+    val isPastStartTime = training.startTime <= LocalDateTime.now()
+
+    val eventColor = when {
+        isLowBalance && !isPastStartTime -> lowBalanceEventColor
+        isPastStartTime && isLowBalance -> pastLowBalanceEventColor
+        isPastStartTime -> pastCalendarEvent
+        else -> futureCalendarEvent
+    }
+
 
     return CalendarEntity.Event(
         id = training.id!!,

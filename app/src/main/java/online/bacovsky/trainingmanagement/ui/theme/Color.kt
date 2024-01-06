@@ -20,6 +20,6 @@ val futureCalendarEvent = Color(0xFF418554)
 val todayBackground = Color(0xff0390fc)
 val weekendBackground = Color(0x15FF0000)
 val lowBalanceEventColor = Color(0xFFB3261E)
-val pastLowBalanceEventColor = Color(0xFF861D17)
+val pastLowBalanceEventColor = Color(0xFF681712)
 
 val positive = futureCalendarEvent
