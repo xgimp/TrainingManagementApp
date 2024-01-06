@@ -8,7 +8,7 @@ import online.bacovsky.trainingmanagement.ui.theme.futureCalendarEvent
 import online.bacovsky.trainingmanagement.ui.theme.lowBalanceEventColor
 import online.bacovsky.trainingmanagement.ui.theme.pastCalendarEvent
 import com.alamkanak.weekview.WeekView
-import java.time.DayOfWeek
+import online.bacovsky.trainingmanagement.ui.theme.pastLowBalanceEventColor
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -64,6 +64,8 @@ fun TrainingWithClient.toCalendarEntity(): CalendarEntity.Event {
 
     val eventColor = if ((client.balance <= client.trainingPrice) && training.startTime > LocalDateTime.now())
         lowBalanceEventColor
+    else if (training.startTime <= LocalDateTime.now() && client.balance <= client.trainingPrice)
+        pastLowBalanceEventColor
     else if (training.startTime <= LocalDateTime.now())
         pastCalendarEvent
     else futureCalendarEvent
