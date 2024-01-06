@@ -61,7 +61,7 @@ fun SmsScreen(
                 }
                 else {
 //                    show modal and then permission request
-//                    smsPermissionState.launchPermissionRequest()
+                    smsPermissionState.launchPermissionRequest()
 
                     scope.launch {
                         val result = snackbarHostState.showSnackbar(
@@ -79,6 +79,7 @@ fun SmsScreen(
                 }
             }
             is PermissionStatus.Granted -> {
+                snackbarHostState.currentSnackbarData?.dismiss()
                 Toast.makeText(context, "permission granted", Toast.LENGTH_LONG).show()
             }
         }

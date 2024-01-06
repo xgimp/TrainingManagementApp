@@ -64,5 +64,5 @@
     <string name="invalid_phone_number">Telefonní číslo je nutné  zadat ve formátu 111222333 nebo (+420) 111 222 333</string>
     <string name="phone_number">Telefonní číslo</string>
     <string name="sms_greeting">Ahoj</string>
-    <string name="sms_footer">Měj se hezky</string>
+    <string name="sms_footer">Hezký den</string>
 </resources>

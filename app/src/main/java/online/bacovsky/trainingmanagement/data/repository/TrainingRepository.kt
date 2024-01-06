@@ -25,6 +25,7 @@ interface TrainingRepository {
     
     @Transaction
     suspend fun insertTrainingAndLogTransaction(training: TrainingWithClient, paymentNote: String)
+
     suspend fun getClientListWithTrainingsBetweenTime(
         startTime: LocalDateTime,
         endTime: LocalDateTime
