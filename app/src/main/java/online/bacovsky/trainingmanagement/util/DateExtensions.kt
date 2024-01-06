@@ -6,8 +6,9 @@ import online.bacovsky.trainingmanagement.domain.model.CalendarEntity
 import online.bacovsky.trainingmanagement.domain.model.TrainingWithClient
 import online.bacovsky.trainingmanagement.ui.theme.futureCalendarEvent
 import online.bacovsky.trainingmanagement.ui.theme.lowBalanceEventColor
-import online.bacovsky.trainingmanagement.ui.theme.pastCalendarEvent
 import com.alamkanak.weekview.WeekView
+import online.bacovsky.trainingmanagement.ui.theme.inDebtEventColor
+import online.bacovsky.trainingmanagement.ui.theme.zeroBalanceEventColor
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -18,7 +19,7 @@ import java.time.format.FormatStyle
 import java.util.Calendar
 import java.util.Date
 
-private val TAG = "DateExtensions"
+private const val TAG = "DateExtensions"
 
 internal fun Calendar.toLocalDate(): LocalDate {
     return Instant.ofEpochMilli(timeInMillis).atZone(ZoneId.systemDefault()).toLocalDate()
@@ -60,12 +61,23 @@ internal fun LocalDate.toLocalizedFormat(): String {
 }
 
 fun TrainingWithClient.toCalendarEntity(): CalendarEntity.Event {
+    // TODO: extend MaterialTheme with custom colors
+    val isInDebt = client.balance < 0
+    val isZeroBalance = client.balance == 0L
+    val isLowBalance = client.balance <= client.trainingPrice
+    val isPastStartTime = training.startTime <= LocalDateTime.now()
 
-    val eventColor = if ((client.balance <= client.trainingPrice) && training.startTime > LocalDateTime.now())
-        lowBalanceEventColor
-    else if (training.startTime <= LocalDateTime.now())
-        pastCalendarEvent
-    else futureCalendarEvent
+    val eventColor = when {
+        isZeroBalance && isPastStartTime -> zeroBalanceEventColor.darkenBy(50f)
+        isZeroBalance -> zeroBalanceEventColor
+        isInDebt && isPastStartTime -> inDebtEventColor.darkenBy(50f)
+        isInDebt -> inDebtEventColor
+        isLowBalance && !isPastStartTime -> lowBalanceEventColor
+        isPastStartTime && isLowBalance -> lowBalanceEventColor.darkenBy(50f)
+        isPastStartTime -> futureCalendarEvent.darkenBy(50f)
+        else -> futureCalendarEvent
+    }
+
 
     return CalendarEntity.Event(
         id = training.id!!,

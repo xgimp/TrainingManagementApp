@@ -15,10 +15,9 @@ val gray_600 = Color(0xFF757575)
 
 
 // WeekView Colors
-val pastCalendarEvent = Color(0xFF144C2E)
 val futureCalendarEvent = Color(0xFF418554)
-val todayBackground = Color(0xff0390fc)
-val weekendBackground = Color(0x15FF0000)
-val lowBalanceEventColor = Color(0xFFB3261E)
+val lowBalanceEventColor = Color(0xffff885d)
+val zeroBalanceEventColor = Color(0xffd71716)
+val inDebtEventColor = Color(0xFF13a2e6)
 
 val positive = futureCalendarEvent
