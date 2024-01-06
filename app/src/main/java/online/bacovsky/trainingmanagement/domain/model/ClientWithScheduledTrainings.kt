@@ -3,6 +3,7 @@ package online.bacovsky.trainingmanagement.domain.model
 import android.content.Context
 import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.util.UiText
+import online.bacovsky.trainingmanagement.util.removeAccents
 import online.bacovsky.trainingmanagement.util.toLocalizedTimeFormat
 import java.time.format.TextStyle
 import java.util.Locale
@@ -25,7 +26,7 @@ data class  ClientWithScheduledTrainings(
 
             builder
                 .append(dayName)
-                .append(": ")
+                .append(" ")
                 .append(training.startTime.toLocalizedTimeFormat())
                 .append("\n")
         }
@@ -33,6 +34,8 @@ data class  ClientWithScheduledTrainings(
         builder
             .append(UiText.StringResource(R.string.sms_footer).asString(context))
 
-        return builder.toString()
+        return builder
+            .toString()
+            .removeAccents()
     }
 }
