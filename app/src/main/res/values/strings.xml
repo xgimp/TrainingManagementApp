@@ -67,4 +67,7 @@
     <string name="sms_permission_required_message">SMS permission is required in order to send SMS</string>
     <string name="go_to_settings">Go to settings</string>
     <string name="sms_confirm_dialog">Are you really want to send %1$s SMS?</string>
+    <string name="done">Done</string>
+    <string name="sms_sending_progress">Sending SMS %d / %d</string>
+    <string name="sms_confirm_dialog_header">Send SMS</string>
 </resources>

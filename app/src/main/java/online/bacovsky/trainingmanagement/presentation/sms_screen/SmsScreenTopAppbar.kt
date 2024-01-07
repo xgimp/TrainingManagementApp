@@ -9,7 +9,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import online.bacovsky.trainingmanagement.util.Routes
 import online.bacovsky.trainingmanagement.util.UiEvent
 
@@ -20,8 +19,6 @@ fun SmsScreenTopAppbar(
     onEvent: (SmsScreenEvent) -> Unit,
     isSendButtonEnabled: Boolean,
 ) {
-    val context = LocalContext.current
-
     TopAppBar(
         title = {
             // TODO: make this translatable

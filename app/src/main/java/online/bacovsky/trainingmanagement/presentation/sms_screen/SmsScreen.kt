@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +41,7 @@ import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import online.bacovsky.trainingmanagement.util.UiEvent
 import online.bacovsky.trainingmanagement.util.UiText
+import online.bacovsky.trainingmanagement.util.toLocalizedFormat
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -102,22 +105,34 @@ fun SmsScreen(
             modifier = Modifier
                 .padding(paddingValues)
         ) {
-            SendSmsConfirmDialog(
-                isShown = state.showConfirmDialog,
-                dialogText = UiText.StringResource(
-                    R.string.sms_confirm_dialog,
-                    args = arrayOf(clientsWithScheduledTrainings.size)
-                ).asString(),
-                onDismissRequest = {
-                    viewModel.onEvent(SmsScreenEvent.OnBulkSmsSendDismissButtonClicked)
-                },
-                onConfirmation = {
-                    viewModel.onEvent(SmsScreenEvent.OnConfirmSendClicked(context))
-                },
-                smsToSendNumber = clientsWithScheduledTrainings.size,
-                currentProgress = state.numberOfSentSms
-            )
-            CategorizedLazyColumn(items = clientsWithScheduledTrainings)
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "${state.nexMonday.toLocalDate().toLocalizedFormat()} - ${state.nextSunday.toLocalDate().toLocalizedFormat()}",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                CategorizedLazyColumn(items = clientsWithScheduledTrainings)
+                SendSmsConfirmDialog(
+                    isShown = state.showConfirmDialog,
+                    dialogText = UiText.StringResource(
+                        R.string.sms_confirm_dialog,
+                        args = arrayOf(clientsWithScheduledTrainings.size)
+                    ).asString(),
+                    onDismissRequest = {
+                        viewModel.onEvent(SmsScreenEvent.OnBulkSmsSendDismissButtonClicked)
+                    },
+                    onConfirmation = {
+                        viewModel.onEvent(SmsScreenEvent.OnConfirmSendClicked(context))
+                    },
+                    smsToSendNumber = clientsWithScheduledTrainings.size,
+                    currentProgress = state.numberOfSentSms
+                )
+            }
+
         }
     }
 }

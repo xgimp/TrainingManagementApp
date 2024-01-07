@@ -16,10 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,9 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.R
+import online.bacovsky.trainingmanagement.util.UiText
 
 @Composable
 fun SendSmsConfirmDialog(
@@ -40,7 +37,6 @@ fun SendSmsConfirmDialog(
     smsToSendNumber: Int,
     currentProgress: Float
 ) {
-    val scope = rememberCoroutineScope()
     var showProgress by remember {
         mutableStateOf(false)
     }
@@ -69,7 +65,7 @@ fun SendSmsConfirmDialog(
 
                         Text(
                             modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 2.dp),
-                            text = "test",
+                            text = UiText.StringResource(R.string.sms_confirm_dialog_header).asString(),
                             maxLines = 1,
                             style = MaterialTheme.typography.headlineSmall,
                         )
@@ -110,10 +106,20 @@ fun SendSmsConfirmDialog(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             if (showProgress) {
+
+                                val isDone =  currentProgress.toInt() == smsToSendNumber
+
+                                val progressText = when {
+                                    isDone -> UiText.StringResource(R.string.done).asString()
+                                    else -> UiText.StringResource(
+                                        R.string.sms_sending_progress,
+                                        args = arrayOf(currentProgress.toInt(), smsToSendNumber)).asString()
+                                }
+
                                 CircularDeterminateIndicator((currentProgress / smsToSendNumber))
                                 Text(
                                     modifier = Modifier.padding(start = 16.dp),
-                                    text = "Odesílám SMS ${currentProgress.toInt()} z $smsToSendNumber",
+                                    text = progressText,
                                     maxLines = 1
                                 )
                             }
@@ -124,6 +130,7 @@ fun SendSmsConfirmDialog(
                         ) {
 
                             TextButton(
+                                enabled = !showProgress,
                                 onClick = {
                                     showProgress = false
                                     onDismissRequest()
@@ -133,11 +140,9 @@ fun SendSmsConfirmDialog(
                             }
 
                             TextButton(
+                                enabled = !showProgress,
                                 onClick = {
                                     showProgress = true
-//                                    scope.launch {
-//                                        loadProgress(smsToSendNumber, currentProgress)
-//                                    }
                                     onConfirmation()
                                 }
                             ) {

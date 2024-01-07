@@ -11,10 +11,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.TrainingRepository
-import java.time.DayOfWeek
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 
 const val TAG = "SmsScreenViewModel"
@@ -30,19 +26,10 @@ class SmsScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            
-            val nexMonday = LocalDateTime.now()
-                .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
-                .toLocalDate()
-                .atStartOfDay()
-
-            val nextSunday = nexMonday.with(TemporalAdjusters.next(DayOfWeek.SUNDAY))
-                .toLocalDate()
-                .atTime(LocalTime.MAX)
 
             val clientTrainingList = trainingRepository.getClientListWithTrainingsBetweenTime(
-                startTime = nexMonday,
-                endTime = nextSunday
+                startTime = state.nexMonday,
+                endTime = state.nextSunday
             )
             state = state.copy(smsToSendList = clientTrainingList)
         }
@@ -66,12 +53,6 @@ class SmsScreenViewModel @Inject constructor(
                         delay(index * 1_100L)
                         sendSms(telNumber, smsText)
                         state = state.copy(numberOfSentSms = index.toFloat() + 1f)
-                    }
-                }
-                if (state.numberOfSentSms == state.smsToSendList.size.toFloat()) {
-                    viewModelScope.launch {
-                        delay(1_000 * 5)
-                        state = state.copy(showConfirmDialog = !state.showConfirmDialog)
                     }
                 }
             }
