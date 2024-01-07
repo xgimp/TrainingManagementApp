@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -36,8 +35,10 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.launch
+import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import online.bacovsky.trainingmanagement.util.UiEvent
+import online.bacovsky.trainingmanagement.util.UiText
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -45,7 +46,8 @@ fun SmsScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: SmsScreenViewModel = hiltViewModel()
 ) {
-    val clientsWithScheduledTrainings = viewModel.clientTrainingList
+    val state = viewModel.state
+    val clientsWithScheduledTrainings = state.smsToSendList
     val smsPermissionState = rememberPermissionState(permission = Manifest.permission.SEND_SMS)
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -65,8 +67,8 @@ fun SmsScreen(
 
                     scope.launch {
                         val result = snackbarHostState.showSnackbar(
-                            message = "SMS permission is required",
-                            actionLabel = "Go to settings"
+                            message = UiText.StringResource(R.string.sms_permission_required_message).asString(context),
+                            actionLabel = UiText.StringResource(R.string.go_to_settings).asString(context)
                         )
                         if (result == SnackbarResult.ActionPerformed) {
                             val intent = Intent(
@@ -80,7 +82,7 @@ fun SmsScreen(
             }
             is PermissionStatus.Granted -> {
                 snackbarHostState.currentSnackbarData?.dismiss()
-                Toast.makeText(context, "permission granted", Toast.LENGTH_LONG).show()
+//                Toast.makeText(context, "permission granted", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -100,6 +102,21 @@ fun SmsScreen(
             modifier = Modifier
                 .padding(paddingValues)
         ) {
+            SendSmsConfirmDialog(
+                isShown = state.showConfirmDialog,
+                dialogText = UiText.StringResource(
+                    R.string.sms_confirm_dialog,
+                    args = arrayOf(clientsWithScheduledTrainings.size)
+                ).asString(),
+                onDismissRequest = {
+                    viewModel.onEvent(SmsScreenEvent.OnBulkSmsSendDismissButtonClicked)
+                },
+                onConfirmation = {
+                    viewModel.onEvent(SmsScreenEvent.OnConfirmSendClicked(context))
+                },
+                smsToSendNumber = clientsWithScheduledTrainings.size,
+                currentProgress = state.numberOfSentSms
+            )
             CategorizedLazyColumn(items = clientsWithScheduledTrainings)
         }
     }

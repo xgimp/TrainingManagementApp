@@ -65,4 +65,7 @@
     <string name="phone_number">Telefonní číslo</string>
     <string name="sms_greeting">Ahoj</string>
     <string name="sms_footer">Hezký den</string>
+    <string name="sms_permission_required_message">Je potřeba přidělit aplikaci přidělit oprávnění odesílat SMS</string>
+    <string name="go_to_settings">Přejít do nastavení</string>
+    <string name="sms_confirm_dialog">Opravdu odeslat %1$s SMS?</string>
 </resources>

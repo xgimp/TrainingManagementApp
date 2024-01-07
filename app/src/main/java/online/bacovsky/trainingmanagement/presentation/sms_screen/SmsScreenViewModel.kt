@@ -1,13 +1,16 @@
 package online.bacovsky.trainingmanagement.presentation.sms_screen
 
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.TrainingRepository
-import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -22,7 +25,7 @@ class SmsScreenViewModel @Inject constructor(
     private val smsRepository: SmsRepository
 ): ViewModel() {
 
-    var clientTrainingList: List<ClientWithScheduledTrainings> = emptyList()
+    var state by mutableStateOf(SmsScreenState())
         private set
 
     init {
@@ -37,26 +40,39 @@ class SmsScreenViewModel @Inject constructor(
                 .toLocalDate()
                 .atTime(LocalTime.MAX)
 
-            clientTrainingList = trainingRepository.getClientListWithTrainingsBetweenTime(
+            val clientTrainingList = trainingRepository.getClientListWithTrainingsBetweenTime(
                 startTime = nexMonday,
                 endTime = nextSunday
             )
+            state = state.copy(smsToSendList = clientTrainingList)
         }
     }
 
     fun onEvent(event: SmsScreenEvent) {
         when(event) {
-            is SmsScreenEvent.OnBulkSmsSendClick -> {
-                clientTrainingList.forEach {
+            is SmsScreenEvent.OnBulkSmsSendButtonClicked -> {
+                state = state.copy(showConfirmDialog = !state.showConfirmDialog)
+            }
+            is SmsScreenEvent.OnBulkSmsSendDismissButtonClicked -> {
+                state = state.copy(showConfirmDialog = false)
+            }
+            is SmsScreenEvent.OnConfirmSendClicked -> {
+                state.smsToSendList.forEachIndexed { index, clientWithScheduledTrainings ->
                     viewModelScope.launch {
-                        val telNumber = it.client.telephoneNumber
-                        val smsText: String = it.trainingsToSmsText(event.context)
-                        sendSms(telNumber, smsText)
+                        val telNumber = clientWithScheduledTrainings.client.telephoneNumber
+                        val smsText: String = clientWithScheduledTrainings.trainingsToSmsText(event.context)
 
                         // we can send only one SMS per second
-                        Thread.sleep(1_000)
+                        delay(index * 1_100L)
+                        sendSms(telNumber, smsText)
+                        state = state.copy(numberOfSentSms = index.toFloat() + 1f)
                     }
-
+                }
+                if (state.numberOfSentSms == state.smsToSendList.size.toFloat()) {
+                    viewModelScope.launch {
+                        delay(1_000 * 5)
+                        state = state.copy(showConfirmDialog = !state.showConfirmDialog)
+                    }
                 }
             }
         }

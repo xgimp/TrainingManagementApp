@@ -41,7 +41,7 @@ fun SmsScreenTopAppbar(
             IconButton(
                 enabled = isSendButtonEnabled,
                 onClick = {
-                    onEvent(SmsScreenEvent.OnBulkSmsSendClick(context))
+                    onEvent(SmsScreenEvent.OnBulkSmsSendButtonClicked)
                 }
             ) {
                 Icon(
