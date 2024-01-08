@@ -87,4 +87,8 @@ class ClientRepositoryImpl(
         return clientDao.getClientsWithMetadata()
     }
 
+    override suspend fun getAllPhoneNumbers(): List<String> {
+        return clientDao.getAllPhoneNumbers()
+    }
+
 }

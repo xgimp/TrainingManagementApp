@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientDetailEditScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private var clientRepository: ClientRepository,
+    private val clientRepository: ClientRepository,
     private val validateName: ValidateName,
     private val validatePrice: ValidatePrice,
     private val validatePhoneNumber: ValidatePhoneNumber,
@@ -36,6 +36,8 @@ class ClientDetailEditScreenViewModel @Inject constructor(
     var client by mutableStateOf<Client?>(null)
         private set
 
+    private var existingPhoneNumbers = emptyList<String>()
+
     init {
         viewModelScope.launch {
             client = clientRepository.getClientById(clientId)
@@ -47,6 +49,10 @@ class ClientDetailEditScreenViewModel @Inject constructor(
                 price = client?.trainingPrice.toString(),
                 balance = client?.balance
             )
+
+            val currentClientExcluded = clientRepository.getAllPhoneNumbers().toMutableList()
+            currentClientExcluded.remove(client!!.telephoneNumber)
+            existingPhoneNumbers = currentClientExcluded.toList()
         }
     }
 
@@ -77,7 +83,7 @@ class ClientDetailEditScreenViewModel @Inject constructor(
     private fun submitForm() {
         val nameResult = validateName.execute(state.name)
         val priceResult = validatePrice.execute(state.price)
-        val phoneNumberResult = validatePhoneNumber.execute(state.phoneNumber)
+        val phoneNumberResult = validatePhoneNumber.execute(state.phoneNumber, existingPhoneNumbers)
 
         state = state.copy(
             nameError = nameResult.errorMessage,

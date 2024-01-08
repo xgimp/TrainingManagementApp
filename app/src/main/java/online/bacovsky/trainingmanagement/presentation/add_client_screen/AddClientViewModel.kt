@@ -33,6 +33,14 @@ class AddClientViewModel @Inject constructor(
     private val validationEventChannel = Channel<ValidationEvent>()
     val validationEvents = validationEventChannel.receiveAsFlow()
 
+    private var existingPhoneNumbers = emptyList<String>()
+
+    init {
+        viewModelScope.launch {
+            existingPhoneNumbers = repository.getAllPhoneNumbers()
+        }
+    }
+
     fun onEvent(event: AddClientFormEvent) {
         when(event) {
             is AddClientFormEvent.NameChanged -> {
@@ -60,7 +68,7 @@ class AddClientViewModel @Inject constructor(
         val nameResult = validateName.execute(state.name)
         val priceResult = validatePrice.execute(state.price)
         val fundsResult = validateFunds.execute(state.funds)
-        val phoneNumberResult = validatePhoneNumber.execute(state.phoneNumber)
+        val phoneNumberResult = validatePhoneNumber.execute(state.phoneNumber, existingPhoneNumbers)
 
         state = state.copy(
             nameError = nameResult.errorMessage,

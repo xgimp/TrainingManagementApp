@@ -29,12 +29,12 @@ data class Client(
 
 @Composable
 fun Client.setBackgroundByBalance(): Color {
-    val color = if (this.balance <= this.trainingPrice) {
-        MaterialTheme.colorScheme.errorContainer
-    } else if (this.balance <= this.trainingPrice * 4) {
-        MaterialTheme.colorScheme.secondaryContainer
-    } else {
-        Color.Unspecified
+    val isReachingLowBalance = (this.balance <= this.trainingPrice * 4)
+    val isLowBalance =  (this.balance <= this.trainingPrice)
+
+    return when{
+        isReachingLowBalance -> MaterialTheme.colorScheme.secondaryContainer
+        isLowBalance -> MaterialTheme.colorScheme.errorContainer
+        else -> Color.Unspecified
     }
-    return color
 }

@@ -30,4 +30,6 @@ interface ClientRepository {
 
     fun getClientsWithMetadata(): Flow<List<ClientWithMetadata>>
 
+    suspend fun getAllPhoneNumbers(): List<String>
+
 }

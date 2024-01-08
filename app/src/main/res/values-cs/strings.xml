@@ -71,4 +71,5 @@
     <string name="done">Hotovo</string>
     <string name="sms_sending_progress">Odesílám SMS %d / %d</string>
     <string name="sms_confirm_dialog_header">Odeslat SMS</string>
+    <string name="phone_number_exists">Klient s tímto telefonním číslem již existuje</string>
 </resources>

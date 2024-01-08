@@ -28,6 +28,9 @@ interface ClientDao {
     )
     fun getAllActiveClients(): Flow<List<Client>>
 
+    @Query("SELECT telephoneNumber FROM Client WHERE Client.isDeleted = 0")
+    suspend fun getAllPhoneNumbers(): List<String>
+
     @Query("WITH ClosestTraining AS(\n" +
             "  SELECT \n" +
             "    c.id AS client_id, \n" +
