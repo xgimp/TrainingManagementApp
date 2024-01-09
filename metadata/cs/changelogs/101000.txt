@@ -1,0 +1,2 @@
+* přidány filtry na obrazovku "Klienti"
+* fix: nelze přesunout event v kalendáři mimo časový rozsah

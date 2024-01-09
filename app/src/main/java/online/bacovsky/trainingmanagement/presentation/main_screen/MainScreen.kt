@@ -1,5 +1,6 @@
 package online.bacovsky.trainingmanagement.presentation.main_screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
@@ -11,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.presentation.calendar_screen.CalendarDrawerSheetContent
 import online.bacovsky.trainingmanagement.presentation.client_list_screen.ClientListViewModel
 import online.bacovsky.trainingmanagement.ui.navigation.AppNavGraph
@@ -31,6 +34,10 @@ fun MainScreen(
     val selectedClient = remember {
         mutableStateOf(SelectedClientState())
     }
+
+    // close ModalNavigationDrawer by pressing back button
+    val scope = rememberCoroutineScope()
+    BackHandler(enabled = drawerState.isOpen, onBack = { scope.launch { drawerState.close() } })
 
     ModalNavigationDrawer(
         drawerState = drawerState,
