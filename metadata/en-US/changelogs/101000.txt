@@ -1,0 +1,2 @@
+* added filters to "Client" screen
+* fix: cannot move event outside time range in calendar

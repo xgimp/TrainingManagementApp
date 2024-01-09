@@ -1,0 +1,2 @@
+* close ModalNavigationDrawer by pressing back key instead of exiting the app
+* selected filter is displayed on "Client" screen
