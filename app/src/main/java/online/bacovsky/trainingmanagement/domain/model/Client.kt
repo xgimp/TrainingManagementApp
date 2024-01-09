@@ -33,8 +33,8 @@ fun Client.setBackgroundByBalance(): Color {
     val isLowBalance =  (this.balance <= this.trainingPrice)
 
     return when{
-        isReachingLowBalance -> MaterialTheme.colorScheme.secondaryContainer
         isLowBalance -> MaterialTheme.colorScheme.errorContainer
+        isReachingLowBalance -> MaterialTheme.colorScheme.secondaryContainer
         else -> Color.Unspecified
     }
 }
