@@ -8,6 +8,7 @@ import android.telephony.SmsManager
 import android.util.Log
 import online.bacovsky.trainingmanagement.data.data_source.SmsHistoryDao
 import online.bacovsky.trainingmanagement.domain.model.SmsHistory
+import java.time.LocalDateTime
 
 
 class SmsRepositoryImpl(
@@ -25,10 +26,16 @@ class SmsRepositoryImpl(
         smsHistoryDao.insert(sms)
     }
 
+    override suspend fun getSmsSentInTimeRange(
+        startDate: LocalDateTime,
+        endTime: LocalDateTime
+    ): List<SmsHistory> {
+        return smsHistoryDao.getSmsSentInTimeRange(startDate, endTime)
+    }
+
     override fun sendSms(telNumber: String, smsText: String) {
         smsManager.sendTextMessage(telNumber, null, smsText, null, null)
         Log.d(TAG, "sendSms: sent sms: $smsText to telNumber $telNumber")
-//        checkSmsState(telNumber, smsText)
         addSMSToContentProvider(telNumber, smsText)
     }
 

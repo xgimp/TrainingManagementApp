@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "65f4d038c8be242182e61cd03eb5cd7b",
+    "identityHash": "3fee7d57a5456aa07c61cea12a4d5d2e",
     "entities": [
       {
         "tableName": "Client",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `isDeleted` INTEGER NOT NULL, `trainingPrice` INTEGER NOT NULL, `balance` INTEGER NOT NULL, `telephoneNumber` TEXT NOT NULL, `createdAt` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `isDeleted` INTEGER NOT NULL, `trainingPrice` INTEGER NOT NULL, `balance` INTEGER NOT NULL, `telephoneNumber` TEXT NOT NULL DEFAULT '0', `createdAt` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -42,7 +42,8 @@
             "fieldPath": "telephoneNumber",
             "columnName": "telephoneNumber",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": true,
+            "defaultValue": "'0'"
           },
           {
             "fieldPath": "createdAt",
@@ -289,7 +290,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '65f4d038c8be242182e61cd03eb5cd7b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3fee7d57a5456aa07c61cea12a4d5d2e')"
     ]
   }
 }

@@ -36,6 +36,7 @@ class SmsScreenViewModel @Inject constructor(
             )
             state = state.copy(smsToSendList = clientTrainingList)
         }
+
     }
 
     fun onEvent(event: SmsScreenEvent) {
@@ -71,6 +72,8 @@ class SmsScreenViewModel @Inject constructor(
         smsRepository.saveToHistory(
             SmsHistory(
                 sentToClient = clientWithScheduledTrainings.client.id!!,
+                startDate = state.nexMonday,
+                endDate = state.nextSunday,
                 smsText = smsText,
                 smsTextHash = smsText.md5()
             )

@@ -12,7 +12,7 @@ import java.time.LocalDateTime
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("sentToClient"),
         onDelete = ForeignKey.RESTRICT
-    )]
+    )],
 )
 data class SmsHistory(
 
@@ -22,9 +22,9 @@ data class SmsHistory(
     @ColumnInfo(index = true)
     val sentToClient: Long,
 
-    val startDate: LocalDateTime = LocalDateTime.now(),
+    val startDate: LocalDateTime,
 
-    val endDate: LocalDateTime = LocalDateTime.now(),
+    val endDate: LocalDateTime,
 
     val smsText: String,
 
