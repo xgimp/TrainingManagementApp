@@ -14,7 +14,7 @@ import online.bacovsky.trainingmanagement.domain.model.Training
         Client::class,
         Training::class,
         ClientPayment::class,
-        // SmsHistory::class
+        SmsHistory::class
    ],
    version = 2,
 )
@@ -26,5 +26,7 @@ abstract class AppDatabase: RoomDatabase() {
     abstract val trainingDao: TrainingDao
 
     abstract val clientPaymentDao: ClientPaymentDao
+
+    abstract val smsHistoryDao: SmsHistoryDao
 
 }

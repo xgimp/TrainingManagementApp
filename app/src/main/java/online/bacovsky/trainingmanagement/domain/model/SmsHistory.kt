@@ -22,9 +22,15 @@ data class SmsHistory(
     @ColumnInfo(index = true)
     val sentToClient: Long,
 
-    val sentAt: LocalDateTime = LocalDateTime.now(),
+    val startDate: LocalDateTime = LocalDateTime.now(),
+
+    val endDate: LocalDateTime = LocalDateTime.now(),
 
     val smsText: String,
 
-    val success: Boolean
+    @ColumnInfo(index = true)
+    val smsTextHash: String,
+
+    val sentAt: LocalDateTime = LocalDateTime.now(),
+
 )

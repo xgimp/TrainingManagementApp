@@ -6,16 +6,23 @@ import android.net.Uri
 import android.os.Build
 import android.telephony.SmsManager
 import android.util.Log
+import online.bacovsky.trainingmanagement.data.data_source.SmsHistoryDao
+import online.bacovsky.trainingmanagement.domain.model.SmsHistory
 
 
-class SmsDataRepositoryImpl(
-    val context: Context
+class SmsRepositoryImpl(
+    val context: Context,
+    private val smsHistoryDao: SmsHistoryDao
 ): SmsRepository {
 
     @Suppress("DEPRECATION")
     private val smsManager: SmsManager = when {
         (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) -> context.getSystemService(SmsManager::class.java)
         else -> SmsManager.getDefault()
+    }
+
+    override suspend fun saveToHistory(sms: SmsHistory) {
+        smsHistoryDao.insert(sms)
     }
 
     override fun sendSms(telNumber: String, smsText: String) {
@@ -37,4 +44,6 @@ class SmsDataRepositoryImpl(
         val uri = Uri.parse("content://sms/")
         context.contentResolver.insert(uri, values)
     }
+
+
 }

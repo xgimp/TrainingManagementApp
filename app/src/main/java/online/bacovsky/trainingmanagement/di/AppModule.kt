@@ -23,7 +23,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_1_2
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
-import online.bacovsky.trainingmanagement.data.repository.SmsDataRepositoryImpl
+import online.bacovsky.trainingmanagement.data.repository.SmsRepositoryImpl
 import online.bacovsky.trainingmanagement.util.validation.ValidatePhoneNumber
 import javax.inject.Singleton
 
@@ -63,8 +63,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSmsDataRepository(@ApplicationContext appContext: Context): SmsRepository {
-        return SmsDataRepositoryImpl(appContext)
+    fun provideSmsDataRepository(@ApplicationContext appContext: Context, db: AppDatabase): SmsRepository {
+        return SmsRepositoryImpl(appContext, db.smsHistoryDao)
     }
 
     @Provides

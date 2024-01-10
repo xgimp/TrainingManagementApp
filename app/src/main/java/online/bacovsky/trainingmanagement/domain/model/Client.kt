@@ -1,6 +1,5 @@
 package online.bacovsky.trainingmanagement.domain.model
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
@@ -44,5 +43,4 @@ fun Client.setBackgroundByBalance(): Color {
         isLowBalance -> lowBalanceEventColor.addTransparencyBy(60f)
         else -> Color.Unspecified
     }
-    return color
 }

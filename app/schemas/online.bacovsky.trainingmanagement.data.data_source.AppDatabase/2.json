@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "8954f6600cd069c15d1f1031447e13ca",
+    "identityHash": "65f4d038c8be242182e61cd03eb5cd7b",
     "entities": [
       {
         "tableName": "Client",
@@ -197,12 +197,99 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "SmsHistory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `sentToClient` INTEGER NOT NULL, `startDate` TEXT NOT NULL, `endDate` TEXT NOT NULL, `smsText` TEXT NOT NULL, `smsTextHash` TEXT NOT NULL, `sentAt` TEXT NOT NULL, FOREIGN KEY(`sentToClient`) REFERENCES `Client`(`id`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sentToClient",
+            "columnName": "sentToClient",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "startDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "endDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "smsText",
+            "columnName": "smsText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "smsTextHash",
+            "columnName": "smsTextHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sentAt",
+            "columnName": "sentAt",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_SmsHistory_sentToClient",
+            "unique": false,
+            "columnNames": [
+              "sentToClient"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SmsHistory_sentToClient` ON `${TABLE_NAME}` (`sentToClient`)"
+          },
+          {
+            "name": "index_SmsHistory_smsTextHash",
+            "unique": false,
+            "columnNames": [
+              "smsTextHash"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SmsHistory_smsTextHash` ON `${TABLE_NAME}` (`smsTextHash`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Client",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sentToClient"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8954f6600cd069c15d1f1031447e13ca')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '65f4d038c8be242182e61cd03eb5cd7b')"
     ]
   }
 }

@@ -11,6 +11,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.TrainingRepository
+import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
+import online.bacovsky.trainingmanagement.domain.model.SmsHistory
+import online.bacovsky.trainingmanagement.util.md5
 import javax.inject.Inject
 
 const val TAG = "SmsScreenViewModel"
@@ -52,6 +55,7 @@ class SmsScreenViewModel @Inject constructor(
                         // we can send only one SMS per second
                         delay(index * 1_100L)
                         sendSms(telNumber, smsText)
+                        saveToHistory(clientWithScheduledTrainings, smsText)
                         state = state.copy(numberOfSentSms = index.toFloat() + 1f)
                     }
                 }
@@ -61,6 +65,16 @@ class SmsScreenViewModel @Inject constructor(
 
     private fun sendSms(telNumber: String, smsText: String) {
         smsRepository.sendSms(telNumber = telNumber, smsText = smsText)
+    }
+
+    private suspend fun saveToHistory(clientWithScheduledTrainings: ClientWithScheduledTrainings, smsText: String) {
+        smsRepository.saveToHistory(
+            SmsHistory(
+                sentToClient = clientWithScheduledTrainings.client.id!!,
+                smsText = smsText,
+                smsTextHash = smsText.md5()
+            )
+        )
     }
 
 //    private val _uiEvent = Channel<UiEvent>()
