@@ -71,4 +71,5 @@
     <string name="sms_sending_progress">Sending SMS %d / %d</string>
     <string name="sms_confirm_dialog_header">Send SMS</string>
     <string name="phone_number_exists">Client with this phone number already exists</string>
+    <string name="sms_was_sent">SMS was already sent at:</string>
 </resources>

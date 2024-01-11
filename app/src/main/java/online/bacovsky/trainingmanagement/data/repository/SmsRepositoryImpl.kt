@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.telephony.SmsManager
 import android.util.Log
+import kotlinx.coroutines.flow.Flow
 import online.bacovsky.trainingmanagement.data.data_source.SmsHistoryDao
 import online.bacovsky.trainingmanagement.domain.model.SmsHistory
 import java.time.LocalDateTime
@@ -26,10 +27,10 @@ class SmsRepositoryImpl(
         smsHistoryDao.insert(sms)
     }
 
-    override suspend fun getSmsSentInTimeRange(
+    override fun getSmsSentInTimeRange(
         startDate: LocalDateTime,
         endTime: LocalDateTime
-    ): List<SmsHistory> {
+    ): Flow<List<SmsHistory>> {
         return smsHistoryDao.getSmsSentInTimeRange(startDate, endTime)
     }
 

@@ -6,9 +6,11 @@ import android.net.Uri
 import android.provider.Settings
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,8 +26,11 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -40,9 +45,13 @@ import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
+import online.bacovsky.trainingmanagement.domain.model.SmsHistory
 import online.bacovsky.trainingmanagement.util.UiEvent
 import online.bacovsky.trainingmanagement.util.UiText
+import online.bacovsky.trainingmanagement.util.toLocalizedDateTimeFormat
 import online.bacovsky.trainingmanagement.util.toLocalizedFormat
+import online.bacovsky.trainingmanagement.util.toLocalizedTimeFormat
+import kotlin.math.log
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -51,6 +60,7 @@ fun SmsScreen(
     viewModel: SmsScreenViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
+    val smsHistory by viewModel.smsHistory.collectAsState(initial = emptyList())
     val clientsWithScheduledTrainings = state.smsToSendList
     val smsPermissionState = rememberPermissionState(permission = Manifest.permission.SEND_SMS)
     val context = LocalContext.current
@@ -116,7 +126,11 @@ fun SmsScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
-                CategorizedLazyColumn(items = clientsWithScheduledTrainings)
+
+                CategorizedLazyColumn(
+                    items = clientsWithScheduledTrainings,
+                    smsHistory = smsHistory
+                )
                 SendSmsConfirmDialog(
                     isShown = state.showConfirmDialog,
                     dialogText = UiText.StringResource(
@@ -141,17 +155,28 @@ fun SmsScreen(
 @Composable
 fun Header(
     text: String,
+    text2: String,
     modifier: Modifier = Modifier
 ) {
-    Text(
-        text = text,
-        maxLines = 1,
-        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.primaryContainer)
-            .padding(16.dp)
-    )
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = text,
+            maxLines = 1,
+            fontSize = MaterialTheme.typography.titleSmall.fontSize
+        )
+        Text(
+            text = if(text2.isNotEmpty()) "${UiText.StringResource(R.string.sms_was_sent).asString()} $text2" else text2,
+            maxLines = 1,
+            fontSize = MaterialTheme.typography.titleSmall.fontSize,
+            color = MaterialTheme.colorScheme.secondary
+        )
+    }
 
 }
 
@@ -159,14 +184,17 @@ fun Header(
 @Composable
 fun SMSPreviewItem(
     item: ClientWithScheduledTrainings,
+    sentTime: String,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
         modifier = modifier.fillMaxWidth()
     ) {
         val context = LocalContext.current
-
-        Header(text = item.client.name)
+        Header(
+            text = item.client.name,
+            text2 = sentTime
+        )
         Text(
             modifier = modifier
                 .padding(
@@ -185,11 +213,20 @@ fun SMSPreviewItem(
 @Composable
 fun CategorizedLazyColumn(
     items: List<ClientWithScheduledTrainings>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    smsHistory: List<SmsHistory>
 ) {
     LazyColumn(modifier) {
-        items(items) {
-            SMSPreviewItem(item = it)
+        items(items) { smsToPreview ->
+
+            val wasSentTime = smsHistory.lastOrNull { smsHistory ->
+                smsHistory.sentToClient == smsToPreview.client.id
+            }?.sentAt?.toLocalizedDateTimeFormat().orEmpty()
+
+            SMSPreviewItem(
+                item = smsToPreview,
+                sentTime = wasSentTime
+            )
         }
     }
 }

@@ -1,6 +1,7 @@
 package online.bacovsky.trainingmanagement.data.data_source
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import online.bacovsky.trainingmanagement.domain.model.SmsHistory
 import java.time.LocalDateTime
 
@@ -15,8 +16,8 @@ interface SmsHistoryDao {
         "WHERE startDate = :startDate " +
         "AND endDate = :endDate"
     )
-    suspend fun getSmsSentInTimeRange(
+    fun getSmsSentInTimeRange(
         startDate: LocalDateTime,
         endDate: LocalDateTime
-    ): List<SmsHistory>
+    ): Flow<List<SmsHistory>>
 }

@@ -24,7 +24,13 @@ class SmsScreenViewModel @Inject constructor(
     private val smsRepository: SmsRepository
 ): ViewModel() {
 
+    //TODO: maybe expose SMSPreview instead of List<ClientWithScheduledTrainings> and clean up
+    // SmsScreen.kt
+
     var state by mutableStateOf(SmsScreenState())
+        private set
+
+    var smsHistory = smsRepository.getSmsSentInTimeRange(state.nexMonday, state.nextSunday)
         private set
 
     init {
@@ -34,7 +40,7 @@ class SmsScreenViewModel @Inject constructor(
                 startTime = state.nexMonday,
                 endTime = state.nextSunday
             )
-            state = state.copy(smsToSendList = clientTrainingList)
+            state = state.copy(smsToSendList = clientTrainingList.sortedBy { it.client.name })
         }
 
     }
@@ -79,13 +85,4 @@ class SmsScreenViewModel @Inject constructor(
             )
         )
     }
-
-//    private val _uiEvent = Channel<UiEvent>()
-//    val iuEvent = _uiEvent.receiveAsFlow()
-
-//    private fun sendUiEvent(event: UiEvent) {
-//        viewModelScope.launch {
-//            _uiEvent.send(event)
-//        }
-//    }
 }

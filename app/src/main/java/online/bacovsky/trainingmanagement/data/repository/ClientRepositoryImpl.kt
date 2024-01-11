@@ -15,7 +15,6 @@ class ClientRepositoryImpl(
     private val transactionProvider: TransactionProvider
 ): ClientRepository {
 
-
     override suspend fun insert(client: Client) {
         clientDao.insertClient(client)
     }
@@ -47,7 +46,6 @@ class ClientRepositoryImpl(
                     note = fundsNote
                 )
             )
-
         }
     }
 
