@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,7 +29,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -50,8 +48,6 @@ import online.bacovsky.trainingmanagement.util.UiEvent
 import online.bacovsky.trainingmanagement.util.UiText
 import online.bacovsky.trainingmanagement.util.toLocalizedDateTimeFormat
 import online.bacovsky.trainingmanagement.util.toLocalizedFormat
-import online.bacovsky.trainingmanagement.util.toLocalizedTimeFormat
-import kotlin.math.log
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
