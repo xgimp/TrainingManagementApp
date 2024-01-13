@@ -9,8 +9,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.util.Routes
 import online.bacovsky.trainingmanagement.util.UiEvent
+import online.bacovsky.trainingmanagement.util.UiText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +25,7 @@ fun SmsScreenTopAppbar(
         title = {
             // TODO: make this translatable
             // TODO: figure out better title
-            Text(text = "Sms screen")
+            Text(text = UiText.StringResource(R.string.sms_screen_title).asString())
         },
         navigationIcon = {
             IconButton(

@@ -38,3 +38,17 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         )
     }
 }
+
+
+val REVERSE_MIGRATION_2_1 = object : Migration(2, 1) {
+
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Drop the SmsHistory table and indices
+        db.execSQL("DROP INDEX IF EXISTS index_SmsHistory_sentToClient")
+        db.execSQL("DROP INDEX IF EXISTS index_SmsHistory_smsTextHash")
+        db.execSQL("DROP TABLE IF EXISTS SmsHistory")
+
+        // Remove the added column from the Client table
+        db.execSQL("ALTER TABLE Client DROP COLUMN telephoneNumber")
+    }
+}
