@@ -2,7 +2,6 @@ package online.bacovsky.trainingmanagement.presentation.client_list_screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.FitnessCenter
 import androidx.compose.material.icons.outlined.Person
@@ -20,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import online.bacovsky.trainingmanagement.domain.model.ClientWithMetadata
 import online.bacovsky.trainingmanagement.domain.model.setBackgroundByBalance
 import online.bacovsky.trainingmanagement.util.currencySymbol
-import online.bacovsky.trainingmanagement.util.toLocalizedDateTimeFormat
+import online.bacovsky.trainingmanagement.util.formattedNumber
 
 
 @Composable
@@ -102,24 +101,11 @@ fun ClientListItem(
                         contentDescription = "Client balance icon"
                     )
                     Text(
-                        text = "${client.clientBalance} $currencySymbol",
+                        text = "${client.clientBalance.formattedNumber()} $currencySymbol",
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(start = 30.dp),
                     )
                 }
-//                Box {
-//                    // Clients closest training at
-//                    Icon(
-//                        imageVector = Icons.Outlined.AccessTime,
-//                        tint = MaterialTheme.colorScheme.secondary,
-//                        contentDescription = "Client balance icon"
-//                    )
-//                    Text(
-//                        text = client.closestTrainingStartAt?.toLocalizedDateTimeFormat() ?: "??",
-//                        color = MaterialTheme.colorScheme.secondary,
-//                        modifier = Modifier.padding(start = 30.dp),
-//                    )
-//                }
             }
         }
     }

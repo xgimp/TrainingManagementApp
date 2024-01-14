@@ -25,3 +25,8 @@ fun String.md5(): String {
     val digest = md.digest(this.toByteArray())
     return digest.toHexString()
 }
+fun Long.formattedNumber(locale: Locale = Locale.getDefault()): String {
+    val numberFormat = NumberFormat.getNumberInstance(locale)
+    return numberFormat.format(this)
+}
+
