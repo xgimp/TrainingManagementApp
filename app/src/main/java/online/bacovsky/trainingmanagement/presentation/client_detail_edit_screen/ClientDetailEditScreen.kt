@@ -47,6 +47,7 @@ import online.bacovsky.trainingmanagement.util.Routes
 import online.bacovsky.trainingmanagement.util.UiEvent
 import online.bacovsky.trainingmanagement.util.UiText
 import online.bacovsky.trainingmanagement.util.currencySymbol
+import online.bacovsky.trainingmanagement.util.formattedNumber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -221,7 +222,7 @@ fun ClientDetailEditScreen(
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = "${state.balance} $currencySymbol",
+                value = "${state.balance?.formattedNumber()} $currencySymbol",
                 readOnly = true,
                 onValueChange = {},
                 label = {
