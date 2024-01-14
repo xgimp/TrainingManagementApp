@@ -9,3 +9,9 @@ val Int.px: Int
 
 val currencySymbol: String?
     get() = NumberFormat.getCurrencyInstance(Locale.getDefault()).currency?.symbol
+
+fun Long.formattedNumber(locale: Locale = Locale.getDefault()): String {
+    val numberFormat = NumberFormat.getNumberInstance(locale)
+    return numberFormat.format(this)
+}
+

@@ -21,7 +21,7 @@
     <string name="client_detail">Detail klienta</string>
     <string name="add_client">Přidat klienta</string>
     <string name="add_training">Přidat trénink</string>
-    <string name="training_detail">Training Detail</string>
+    <string name="training_detail">Detail tréninku</string>
     <string name="calendar_screen_title">Kalendář</string>
     <string name="add_funds_screen_title">Přidat peníze</string>
     <string name="add_funds_placeholder">Zadejte částku</string>
