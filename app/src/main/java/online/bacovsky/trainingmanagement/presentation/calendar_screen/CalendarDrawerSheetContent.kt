@@ -160,7 +160,6 @@ fun CalendarDrawerSheetContent(
                             contentDescription = "Send SMS"
                         )
                     },
-                    // TODO: make this translatable
                     label = { Text(text = UiText.StringResource(R.string.sms).asString()) },
                     selected = false,
                     onClick = {
