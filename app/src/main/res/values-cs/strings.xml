@@ -74,4 +74,6 @@
     <string name="phone_number_exists">Klient s tímto telefonním číslem již existuje</string>
     <string name="sms_was_sent">Odesláno v:</string>
     <string name="sms_screen_title">SMS</string>
+    <string name="sms">SMS</string>
+    <string name="other_options">Ostatní</string>
 </resources>

@@ -73,4 +73,6 @@
     <string name="phone_number_exists">Client with this phone number already exists</string>
     <string name="sms_was_sent">SMS was already sent at:</string>
     <string name="sms_screen_title">SMS</string>
+    <string name="sms">SMS</string>
+    <string name="other_options">Other options</string>
 </resources>

@@ -38,6 +38,7 @@ import online.bacovsky.trainingmanagement.presentation.main_screen.SelectedClien
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.presentation.client_list_screen.ClientListEvent
 import online.bacovsky.trainingmanagement.util.UiEvent
+import online.bacovsky.trainingmanagement.util.UiText
 
 @Composable
 fun CalendarDrawerSheetContent(
@@ -141,20 +142,35 @@ fun CalendarDrawerSheetContent(
                     }
                 )
             }
-        }
-        NavigationDrawerItem(
-            modifier = Modifier
-                .padding(NavigationDrawerItemDefaults.ItemPadding),
-            icon = { Icon(imageVector = Icons.Outlined.Sms, contentDescription = "Send SMS" )},
-            // TODO: make this translatable
-            label = { Text(text = "SMS") },
-            selected = false,
-            onClick = {
-                scope.launch {
-                    onEvent(ClientListEvent.OnSmsSendClick)
-                    drawerState.close()
-                }
+            item {
+                Text(
+                    text = stringResource(id = R.string.other_options),
+                    maxLines = 1,
+                    modifier = Modifier.padding(16.dp)
+                )
+                Divider()
             }
-        )
+            item {
+                NavigationDrawerItem(
+                    modifier = Modifier
+                        .padding(NavigationDrawerItemDefaults.ItemPadding),
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Sms,
+                            contentDescription = "Send SMS"
+                        )
+                    },
+                    // TODO: make this translatable
+                    label = { Text(text = UiText.StringResource(R.string.sms).asString()) },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            onEvent(ClientListEvent.OnSmsSendClick)
+                            drawerState.close()
+                        }
+                    }
+                )
+            }
+        }
     }
 }
