@@ -16,7 +16,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -29,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -115,13 +121,37 @@ fun SmsScreen(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = "${state.nexMonday.toLocalDate().toLocalizedFormat()} - ${state.nextSunday.toLocalDate().toLocalizedFormat()}",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = {
+                        viewModel.onEvent(SmsScreenEvent.OnPreviousWeekButtonClicked)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Outlined.ArrowBack,
+                            contentDescription = "Preview Week Button"
+                        )
+                    }
+                    Text(
+                        text = "${state.nexMonday.toLocalDate().toLocalizedFormat()} - ${state.nextSunday.toLocalDate().toLocalizedFormat()}",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
+                        textAlign = TextAlign.Center,
+                    )
+                    IconButton(onClick = {
+                        viewModel.onEvent(SmsScreenEvent.OnNextWeekButtonClicked)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Outlined.ArrowForward,
+                            contentDescription = "Next Week Button"
+                        )
+                    }
+                }
+
+
 
                 CategorizedLazyColumn(
                     items = clientsWithScheduledTrainings,

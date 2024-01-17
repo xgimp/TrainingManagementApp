@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -31,7 +32,11 @@ fun BottomNav(navController: NavController) {
                         contentDescription = item.title.asString())
                 },
                 label = {
-                    Text(text = item.title.asString())
+                    Text(
+                        text = item.title.asString(),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 },
                 alwaysShowLabel = true,
                 selected = currentRoute == item.screenRoute,

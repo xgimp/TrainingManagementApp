@@ -14,6 +14,10 @@ import online.bacovsky.trainingmanagement.data.repository.TrainingRepository
 import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import online.bacovsky.trainingmanagement.domain.model.SmsHistory
 import online.bacovsky.trainingmanagement.util.md5
+import java.time.DayOfWeek
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 
 const val TAG = "SmsScreenViewModel"
@@ -34,15 +38,21 @@ class SmsScreenViewModel @Inject constructor(
         private set
 
     init {
+        fetchSmsForWeek(state.nexMonday, state.nextSunday)
+    }
+
+    private fun fetchSmsForWeek(monday: LocalDateTime, sunday: LocalDateTime) {
         viewModelScope.launch {
-
             val clientTrainingList = trainingRepository.getClientListWithTrainingsBetweenTime(
-                startTime = state.nexMonday,
-                endTime = state.nextSunday
+                startTime = monday,
+                endTime = sunday
             )
-            state = state.copy(smsToSendList = clientTrainingList.sortedBy { it.client.name })
+            state = state.copy(
+                nexMonday = monday,
+                nextSunday = sunday,
+                smsToSendList = clientTrainingList.sortedBy { it.client.name }
+            )
         }
-
     }
 
     fun onEvent(event: SmsScreenEvent) {
@@ -66,6 +76,34 @@ class SmsScreenViewModel @Inject constructor(
                         state = state.copy(numberOfSentSms = index.toFloat() + 1f)
                     }
                 }
+            }
+            is SmsScreenEvent.OnNextWeekButtonClicked -> {
+
+                val nextMonday: LocalDateTime = state.nexMonday
+                    .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+                    .toLocalDate()
+                    .atStartOfDay()
+
+                val nextSunday: LocalDateTime = nextMonday.with(
+                    TemporalAdjusters.next(DayOfWeek.SUNDAY))
+                    .toLocalDate()
+                    .atTime(LocalTime.MAX)
+
+                fetchSmsForWeek(nextMonday, nextSunday)
+            }
+            is SmsScreenEvent.OnPreviousWeekButtonClicked -> {
+
+                val prevMonday: LocalDateTime = state.nexMonday
+                    .with(TemporalAdjusters.previous(DayOfWeek.MONDAY))
+                    .toLocalDate()
+                    .atStartOfDay()
+
+                val prevSunday: LocalDateTime = prevMonday.with(
+                    TemporalAdjusters.next(DayOfWeek.SUNDAY))
+                    .toLocalDate()
+                    .atTime(LocalTime.MAX)
+
+                fetchSmsForWeek(prevMonday, prevSunday)
             }
         }
     }
