@@ -142,34 +142,34 @@ fun CalendarDrawerSheetContent(
                     }
                 )
             }
-            item {
-                Text(
-                    text = stringResource(id = R.string.other_options),
-                    maxLines = 1,
-                    modifier = Modifier.padding(16.dp)
-                )
-                Divider()
-            }
-            item {
-                NavigationDrawerItem(
-                    modifier = Modifier
-                        .padding(NavigationDrawerItemDefaults.ItemPadding),
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Sms,
-                            contentDescription = "Send SMS"
-                        )
-                    },
-                    label = { Text(text = UiText.StringResource(R.string.sms).asString()) },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            onEvent(ClientListEvent.OnSmsSendClick)
-                            drawerState.close()
-                        }
-                    }
-                )
-            }
+//            item {
+//                Text(
+//                    text = stringResource(id = R.string.other_options),
+//                    maxLines = 1,
+//                    modifier = Modifier.padding(16.dp)
+//                )
+//                Divider()
+//            }
+//            item {
+//                NavigationDrawerItem(
+//                    modifier = Modifier
+//                        .padding(NavigationDrawerItemDefaults.ItemPadding),
+//                    icon = {
+//                        Icon(
+//                            imageVector = Icons.Outlined.Sms,
+//                            contentDescription = "Send SMS"
+//                        )
+//                    },
+//                    label = { Text(text = UiText.StringResource(R.string.sms).asString()) },
+//                    selected = false,
+//                    onClick = {
+//                        scope.launch {
+//                            onEvent(ClientListEvent.OnSmsSendClick)
+//                            drawerState.close()
+//                        }
+//                    }
+//                )
+//            }
         }
     }
 }

@@ -5,12 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -140,6 +142,9 @@ fun SmsScreen(
                         style = MaterialTheme.typography.titleLarge,
                         fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.clickable {
+                            viewModel.onEvent(SmsScreenEvent.OnCurrentWeekClicked)
+                        }
                     )
                     IconButton(onClick = {
                         viewModel.onEvent(SmsScreenEvent.OnNextWeekButtonClicked)
@@ -150,8 +155,6 @@ fun SmsScreen(
                         )
                     }
                 }
-
-
 
                 CategorizedLazyColumn(
                     items = clientsWithScheduledTrainings,
@@ -180,8 +183,8 @@ fun SmsScreen(
 
 @Composable
 fun Header(
-    text: String,
-    text2: String,
+    clientName: String,
+    sentAtTime: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -192,12 +195,12 @@ fun Header(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = text,
+            text = clientName,
             maxLines = 1,
             fontSize = MaterialTheme.typography.titleSmall.fontSize
         )
         Text(
-            text = if(text2.isNotEmpty()) "${UiText.StringResource(R.string.sms_was_sent).asString()} $text2" else text2,
+            text = if(sentAtTime.isNotEmpty()) "${UiText.StringResource(R.string.sms_was_sent).asString()} $sentAtTime" else sentAtTime,
             maxLines = 1,
             fontSize = MaterialTheme.typography.titleSmall.fontSize,
             color = MaterialTheme.colorScheme.secondary
@@ -218,8 +221,8 @@ fun SMSPreviewItem(
     ) {
         val context = LocalContext.current
         Header(
-            text = item.client.name,
-            text2 = sentTime
+            clientName = item.client.name,
+            sentAtTime = sentTime
         )
         Text(
             modifier = modifier
@@ -242,6 +245,20 @@ fun CategorizedLazyColumn(
     modifier: Modifier = Modifier,
     smsHistory: List<SmsHistory>
 ) {
+    if (items.isEmpty()) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = UiText.StringResource(R.string.no_training_this_week).asString(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
     LazyColumn(modifier) {
         items(items) { smsToPreview ->
 

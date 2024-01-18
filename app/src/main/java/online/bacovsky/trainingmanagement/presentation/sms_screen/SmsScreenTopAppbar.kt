@@ -28,13 +28,13 @@ fun SmsScreenTopAppbar(
             Text(text = UiText.StringResource(R.string.sms_screen_title).asString())
         },
         navigationIcon = {
-            IconButton(
-                onClick = {
-                    onNavigate(UiEvent.Navigate(Routes.CALENDAR_SCREEN))
-                }
-            ) {
-                Icon(Icons.Outlined.ArrowBack, contentDescription = "")
-            }
+//            IconButton(
+//                onClick = {
+//                    onNavigate(UiEvent.Navigate(Routes.CALENDAR_SCREEN))
+//                }
+//            ) {
+//                Icon(Icons.Outlined.ArrowBack, contentDescription = "")
+//            }
         },
         actions = {
             IconButton(

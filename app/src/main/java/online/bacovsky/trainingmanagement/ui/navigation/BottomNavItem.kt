@@ -21,6 +21,12 @@ sealed class BottomNavItem(
         screenRoute = Routes.CLIENT_LIST_SCREEN
     )
 
+    data object Sms : BottomNavItem(
+        title = UiText.StringResource(R.string.sms),
+        icon = R.drawable.ic_outline_sms_24,
+        screenRoute = Routes.SMS_SCREEN
+    )
+
     data object Backups : BottomNavItem(
         title = UiText.StringResource(R.string.bottom_nav_item_backups),
         icon = R.drawable.ic_outline_backup_24,

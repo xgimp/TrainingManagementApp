@@ -45,6 +45,7 @@ fun MainScreen(
         drawerContent = {
             ModalDrawerSheet {
                 val clients = viewModel.clients.collectAsState(initial = emptyList())
+
                 CalendarDrawerSheetContent(
                     drawerState = drawerState,
                     items = clients,

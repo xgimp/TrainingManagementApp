@@ -57,6 +57,13 @@ fun AppNavGraph(
                 }
             )
         }
+        composable(BottomNavItem.Sms.screenRoute) {
+            SmsScreen(
+                onNavigate = {
+                    navController.navigate(it.route)
+                }
+            )
+        }
         composable(BottomNavItem.Backups.screenRoute) {
             BackupScreen()
         }

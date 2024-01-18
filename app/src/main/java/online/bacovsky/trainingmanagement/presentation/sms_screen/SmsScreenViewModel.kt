@@ -46,11 +46,13 @@ class SmsScreenViewModel @Inject constructor(
             val clientTrainingList = trainingRepository.getClientListWithTrainingsBetweenTime(
                 startTime = monday,
                 endTime = sunday
-            )
+            ).sortedBy {
+                it.client.name
+            }
             state = state.copy(
                 nexMonday = monday,
                 nextSunday = sunday,
-                smsToSendList = clientTrainingList.sortedBy { it.client.name }
+                smsToSendList = clientTrainingList
             )
         }
     }
@@ -104,6 +106,19 @@ class SmsScreenViewModel @Inject constructor(
                     .atTime(LocalTime.MAX)
 
                 fetchSmsForWeek(prevMonday, prevSunday)
+            }
+            is SmsScreenEvent.OnCurrentWeekClicked -> {
+
+                val nextMonday: LocalDateTime = LocalDateTime.now()
+                    .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+                    .toLocalDate()
+                    .atStartOfDay()
+
+                val nextSunday: LocalDateTime = nextMonday.with(TemporalAdjusters.next(DayOfWeek.SUNDAY))
+                    .toLocalDate()
+                    .atTime(LocalTime.MAX)
+
+                fetchSmsForWeek(nextMonday, nextSunday)
             }
         }
     }

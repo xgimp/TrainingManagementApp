@@ -12,4 +12,6 @@ sealed class SmsScreenEvent {
     data object OnPreviousWeekButtonClicked: SmsScreenEvent()
 
     data object OnNextWeekButtonClicked: SmsScreenEvent()
+
+    data object OnCurrentWeekClicked: SmsScreenEvent()
 }

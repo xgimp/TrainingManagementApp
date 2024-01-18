@@ -17,6 +17,7 @@ fun BottomNav(navController: NavController) {
     val items = listOf(
         BottomNavItem.Home,
         BottomNavItem.Clients,
+        BottomNavItem.Sms,
         BottomNavItem.Backups
     )
 
@@ -43,8 +44,8 @@ fun BottomNav(navController: NavController) {
 //                enabled = currentRoute != item.screen_route,
                 onClick = {
                     navController.navigate(item.screenRoute) {
-                        navController.graph.startDestinationRoute?.let { screen_route ->
-                            popUpTo(screen_route) {
+                        navController.graph.startDestinationRoute?.let { screenRoute ->
+                            popUpTo(screenRoute) {
                                 saveState = true
                             }
                         }
