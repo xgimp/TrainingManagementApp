@@ -1,35 +1,41 @@
 package online.bacovsky.trainingmanagement.ui.navigation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Backup
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.People
+import androidx.compose.material.icons.outlined.Sms
+import androidx.compose.ui.graphics.vector.ImageVector
 import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.util.Routes
 import online.bacovsky.trainingmanagement.util.UiText
 
 sealed class BottomNavItem(
-    var title : UiText.StringResource,
-    var icon : Int,
-    var screenRoute : String
+    var title: UiText.StringResource,
+    var icon: ImageVector,
+    var screenRoute: String
 ) {
     data object Home : BottomNavItem(
-        title = UiText.StringResource(resourceId = R.string.bottom_nav_item_calendar),
-        icon = R.drawable.ic_outline_calendar_month_24,
+        title = UiText.StringResource(R.string.bottom_nav_item_calendar),
+        icon = Icons.Outlined.CalendarMonth,
         screenRoute = Routes.CALENDAR_SCREEN
     )
 
     data object Clients : BottomNavItem(
         title = UiText.StringResource(R.string.bottom_nav_item_clients),
-        icon = R.drawable.ic_outline_people_24,
+        icon = Icons.Outlined.People,
         screenRoute = Routes.CLIENT_LIST_SCREEN
     )
 
     data object Sms : BottomNavItem(
         title = UiText.StringResource(R.string.sms),
-        icon = R.drawable.ic_outline_sms_24,
+        icon = Icons.Outlined.Sms,
         screenRoute = Routes.SMS_SCREEN
     )
 
     data object Backups : BottomNavItem(
         title = UiText.StringResource(R.string.bottom_nav_item_backups),
-        icon = R.drawable.ic_outline_backup_24,
+        icon = Icons.Outlined.Backup,
         screenRoute = Routes.BACKUP_SCREEN
     )
 }

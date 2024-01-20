@@ -29,7 +29,7 @@ fun BottomNav(navController: NavController) {
             NavigationBarItem(
                 icon = {
                     Icon(
-                        painter = painterResource(id = item.icon),
+                        imageVector = item.icon,
                         contentDescription = item.title.asString())
                 },
                 label = {
