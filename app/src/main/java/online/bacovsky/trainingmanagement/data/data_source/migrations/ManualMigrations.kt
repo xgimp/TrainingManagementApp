@@ -18,7 +18,7 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
                     id INTEGER PRIMARY KEY AUTOINCREMENT, 
                     sentToClient INTEGER NOT NULL, 
                     startDate TEXT NOT NULL, 
-                    endDate TEXT NOT NULL, 
+                     TEXT NOT NULL, 
                     smsText TEXT NOT NULL, 
                     smsTextHash TEXT NOT NULL, 
                     sentAt TEXT NOT NULL, 
@@ -36,19 +36,5 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
                 CREATE INDEX IF NOT EXISTS index_SmsHistory_smsTextHash ON SmsHistory(smsTextHash)
             """.trimIndent()
         )
-    }
-}
-
-
-val REVERSE_MIGRATION_2_1 = object : Migration(2, 1) {
-
-    override fun migrate(db: SupportSQLiteDatabase) {
-        // Drop the SmsHistory table and indices
-        db.execSQL("DROP INDEX IF EXISTS index_SmsHistory_sentToClient")
-        db.execSQL("DROP INDEX IF EXISTS index_SmsHistory_smsTextHash")
-        db.execSQL("DROP TABLE IF EXISTS SmsHistory")
-
-        // Remove the added column from the Client table
-        db.execSQL("ALTER TABLE Client DROP COLUMN telephoneNumber")
     }
 }

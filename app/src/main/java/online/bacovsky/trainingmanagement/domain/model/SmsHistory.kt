@@ -22,10 +22,6 @@ data class SmsHistory(
     @ColumnInfo(index = true)
     val sentToClient: Long,
 
-    val startDate: LocalDateTime,
-
-    val endDate: LocalDateTime,
-
     val smsText: String,
 
     @ColumnInfo(index = true)

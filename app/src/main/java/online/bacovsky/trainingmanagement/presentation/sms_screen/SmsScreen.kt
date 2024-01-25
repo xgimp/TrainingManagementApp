@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowForward
@@ -57,14 +59,13 @@ import online.bacovsky.trainingmanagement.util.UiText
 import online.bacovsky.trainingmanagement.util.toLocalizedDateTimeFormat
 import online.bacovsky.trainingmanagement.util.toLocalizedFormat
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun SmsScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: SmsScreenViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
-    val smsHistory by viewModel.smsHistory.collectAsState(initial = emptyList())
     val clientsWithScheduledTrainings = state.smsToSendList
     val smsPermissionState = rememberPermissionState(permission = Manifest.permission.SEND_SMS)
     val context = LocalContext.current
@@ -110,7 +111,7 @@ fun SmsScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             SmsScreenTopAppbar(
-                onNavigate = onNavigate,
+//                onNavigate = onNavigate,
                 onEvent = viewModel::onEvent,
                 isSendButtonEnabled = smsPermissionState.status.isGranted && (clientsWithScheduledTrainings.isNotEmpty())
             )
@@ -155,10 +156,8 @@ fun SmsScreen(
                         )
                     }
                 }
-
                 CategorizedLazyColumn(
                     items = clientsWithScheduledTrainings,
-                    smsHistory = smsHistory
                 )
                 SendSmsConfirmDialog(
                     isShown = state.showConfirmDialog,
@@ -184,7 +183,6 @@ fun SmsScreen(
 @Composable
 fun Header(
     clientName: String,
-    sentAtTime: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -199,12 +197,6 @@ fun Header(
             maxLines = 1,
             fontSize = MaterialTheme.typography.titleSmall.fontSize
         )
-        Text(
-            text = if(sentAtTime.isNotEmpty()) "${UiText.StringResource(R.string.sms_was_sent).asString()} $sentAtTime" else sentAtTime,
-            maxLines = 1,
-            fontSize = MaterialTheme.typography.titleSmall.fontSize,
-            color = MaterialTheme.colorScheme.secondary
-        )
     }
 
 }
@@ -213,7 +205,6 @@ fun Header(
 @Composable
 fun SMSPreviewItem(
     item: ClientWithScheduledTrainings,
-    sentTime: String,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
@@ -221,8 +212,7 @@ fun SMSPreviewItem(
     ) {
         val context = LocalContext.current
         Header(
-            clientName = item.client.name,
-            sentAtTime = sentTime
+            clientName = item.client.name
         )
         Text(
             modifier = modifier
@@ -243,7 +233,6 @@ fun SMSPreviewItem(
 fun CategorizedLazyColumn(
     items: List<ClientWithScheduledTrainings>,
     modifier: Modifier = Modifier,
-    smsHistory: List<SmsHistory>
 ) {
     if (items.isEmpty()) {
         Row(
@@ -260,15 +249,15 @@ fun CategorizedLazyColumn(
         }
     }
     LazyColumn(modifier) {
-        items(items) { smsToPreview ->
-
-            val wasSentTime = smsHistory.lastOrNull { smsHistory ->
-                smsHistory.sentToClient == smsToPreview.client.id
-            }?.sentAt?.toLocalizedDateTimeFormat().orEmpty()
+        items(
+            items = items,
+            key = {
+                it.client.id!!
+            }
+        ) { smsToPreview ->
 
             SMSPreviewItem(
                 item = smsToPreview,
-                sentTime = wasSentTime
             )
         }
     }

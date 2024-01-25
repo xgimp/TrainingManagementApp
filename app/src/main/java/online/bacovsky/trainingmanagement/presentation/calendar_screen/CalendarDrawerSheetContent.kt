@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +20,7 @@ import androidx.compose.material.icons.outlined.Sms
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
@@ -29,6 +32,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import online.bacovsky.trainingmanagement.R
@@ -38,7 +42,6 @@ import online.bacovsky.trainingmanagement.presentation.main_screen.SelectedClien
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.presentation.client_list_screen.ClientListEvent
 import online.bacovsky.trainingmanagement.util.UiEvent
-import online.bacovsky.trainingmanagement.util.UiText
 
 @Composable
 fun CalendarDrawerSheetContent(
@@ -81,7 +84,12 @@ fun CalendarDrawerSheetContent(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            items(items.value) { client ->
+            items(
+                items = items.value,
+                key = {
+                    it.id!!
+                }
+            ) { client: Client ->
                 NavigationDrawerItem(
                     colors = NavigationDrawerItemDefaults.colors(
                         unselectedContainerColor = client.setBackgroundByBalance(),
@@ -108,9 +116,18 @@ fun CalendarDrawerSheetContent(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = client.name)
+                            Text(
+                                text = client.name,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                            )
                             Box(
                                 contentAlignment = Alignment.CenterStart
                             ) {
@@ -120,7 +137,6 @@ fun CalendarDrawerSheetContent(
                                 )
                                 Text(
                                     text = (client.balance / client.trainingPrice).toString(),
-//                                color = client.setBalanceTextColor(),
                                     modifier = Modifier.padding(start = 30.dp)
                                 )
                             }
@@ -142,34 +158,6 @@ fun CalendarDrawerSheetContent(
                     }
                 )
             }
-//            item {
-//                Text(
-//                    text = stringResource(id = R.string.other_options),
-//                    maxLines = 1,
-//                    modifier = Modifier.padding(16.dp)
-//                )
-//                Divider()
-//            }
-//            item {
-//                NavigationDrawerItem(
-//                    modifier = Modifier
-//                        .padding(NavigationDrawerItemDefaults.ItemPadding),
-//                    icon = {
-//                        Icon(
-//                            imageVector = Icons.Outlined.Sms,
-//                            contentDescription = "Send SMS"
-//                        )
-//                    },
-//                    label = { Text(text = UiText.StringResource(R.string.sms).asString()) },
-//                    selected = false,
-//                    onClick = {
-//                        scope.launch {
-//                            onEvent(ClientListEvent.OnSmsSendClick)
-//                            drawerState.close()
-//                        }
-//                    }
-//                )
-//            }
         }
     }
 }

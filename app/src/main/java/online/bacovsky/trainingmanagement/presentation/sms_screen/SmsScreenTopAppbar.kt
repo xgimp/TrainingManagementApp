@@ -17,7 +17,7 @@ import online.bacovsky.trainingmanagement.util.UiText
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmsScreenTopAppbar(
-    onNavigate: (UiEvent.Navigate) -> Unit,
+//    onNavigate: (UiEvent.Navigate) -> Unit,
     onEvent: (SmsScreenEvent) -> Unit,
     isSendButtonEnabled: Boolean,
 ) {

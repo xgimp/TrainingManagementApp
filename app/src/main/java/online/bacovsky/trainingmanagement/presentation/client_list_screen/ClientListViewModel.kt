@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import online.bacovsky.trainingmanagement.data.repository.ClientRepository
-import online.bacovsky.trainingmanagement.domain.model.Client
 import online.bacovsky.trainingmanagement.util.Routes
 import online.bacovsky.trainingmanagement.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +18,7 @@ const val TAG = "ClientListViewModel"
 
 @HiltViewModel
 class ClientListViewModel @Inject constructor(
-    private val repository: ClientRepository
+    repository: ClientRepository
 ): ViewModel() {
     val clients = repository.getAllActiveClients()
 
@@ -37,27 +36,12 @@ class ClientListViewModel @Inject constructor(
     var currentSortOrderDisplayName by mutableStateOf("")
         private set
 
-    private var lastDeletedClient: Client? = null
-
     fun onEvent(event: ClientListEvent) {
         when(event) {
-            is ClientListEvent.OnDeleteClick -> {
-                viewModelScope.launch {
-                    repository.delete(event.client)
-                    lastDeletedClient = event.client
-                    sendUiEvent(
-                        UiEvent.ShowSnackbar(
-                            message = "Client deleted",
-                            action = "Undo"
-                        )
-                    )
-                }
-            }
             is ClientListEvent.OnAddClientClick -> {
                 sendUiEvent(UiEvent.Navigate(Routes.ADD_CLIENT))
             }
             is ClientListEvent.OnClickOnClientRowItem -> {
-                // Fixme: use navArgs correctly
                 sendUiEvent(
                     UiEvent.Navigate(
                     Routes.CLIENT_DETAIL_EDIT
@@ -65,16 +49,8 @@ class ClientListViewModel @Inject constructor(
                 ))
             }
             is ClientListEvent.OnSmsSendClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.SMS_SCREEN))
-            }
-            is ClientListEvent.OnUndoDeleteClick -> {
-                val client = lastDeletedClient?.copy(isDeleted = false)
-                viewModelScope.launch {
-                    client?.let {
-                        repository.update(it)
-                        lastDeletedClient = null
-                    }
-                }
+                event.client
+
             }
             is ClientListEvent.OnSortButtonClick -> {
                 isSortOrderMenuExpanded = !isSortOrderMenuExpanded

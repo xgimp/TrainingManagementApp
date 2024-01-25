@@ -57,18 +57,11 @@ fun ClientListScreen(
                         // close previous snackbar(s) if exists
                         snackbarHostState.currentSnackbarData?.dismiss()
 
-                        val snackbarResult = snackbarHostState.showSnackbar(
+                        snackbarHostState.showSnackbar(
                             message = event.message,
                             actionLabel = event.action,
                             withDismissAction = true
                         )
-                        when(snackbarResult) {
-                            SnackbarResult.ActionPerformed -> {
-                                viewModel.onEvent(ClientListEvent.OnUndoDeleteClick)
-
-                            }
-                            else -> {}
-                        }
                     }
                 }
                 else -> Unit
@@ -100,7 +93,12 @@ fun ClientListScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            items(sortedClientList) { client ->
+            items(
+                items = sortedClientList,
+                key = {
+                    it.clientId
+                }
+            ) { client ->
                 ClientListItem(
                     client = client,
 //                    onEvent = viewModel::onEvent,

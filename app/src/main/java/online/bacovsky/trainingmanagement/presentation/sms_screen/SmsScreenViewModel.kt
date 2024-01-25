@@ -13,6 +13,7 @@ import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.TrainingRepository
 import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
 import online.bacovsky.trainingmanagement.domain.model.SmsHistory
+import online.bacovsky.trainingmanagement.services.SmsService
 import online.bacovsky.trainingmanagement.util.md5
 import java.time.DayOfWeek
 import java.time.LocalDateTime
@@ -25,16 +26,11 @@ const val TAG = "SmsScreenViewModel"
 @HiltViewModel
 class SmsScreenViewModel @Inject constructor(
     private val trainingRepository: TrainingRepository,
+    private val smsService: SmsService,
     private val smsRepository: SmsRepository
 ): ViewModel() {
 
-    //TODO: maybe expose SMSPreview instead of List<ClientWithScheduledTrainings> and clean up
-    // SmsScreen.kt
-
     var state by mutableStateOf(SmsScreenState())
-        private set
-
-    var smsHistory = smsRepository.getSmsSentInTimeRange(state.nexMonday, state.nextSunday)
         private set
 
     init {
@@ -124,15 +120,13 @@ class SmsScreenViewModel @Inject constructor(
     }
 
     private fun sendSms(telNumber: String, smsText: String) {
-        smsRepository.sendSms(telNumber = telNumber, smsText = smsText)
+        smsService.sendSms(telNumber = telNumber, smsText = smsText)
     }
 
     private suspend fun saveToHistory(clientWithScheduledTrainings: ClientWithScheduledTrainings, smsText: String) {
         smsRepository.saveToHistory(
             SmsHistory(
                 sentToClient = clientWithScheduledTrainings.client.id!!,
-                startDate = state.nexMonday,
-                endDate = state.nextSunday,
                 smsText = smsText,
                 smsTextHash = smsText.md5()
             )

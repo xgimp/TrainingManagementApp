@@ -13,8 +13,7 @@ interface SmsHistoryDao {
 
     @Query(
         "SELECT * FROM SmsHistory " +
-        "WHERE startDate = :startDate " +
-        "AND endDate = :endDate"
+        "WHERE sentAt BETWEEN :startDate AND :endDate"
     )
     fun getSmsSentInTimeRange(
         startDate: LocalDateTime,
