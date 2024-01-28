@@ -22,7 +22,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_1_2
-import online.bacovsky.trainingmanagement.data.data_source.migrations.REVERSE_MIGRATION_2_1
+import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_2_3
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.SmsRepositoryImpl
 import online.bacovsky.trainingmanagement.util.validation.ValidatePhoneNumber
@@ -40,7 +40,7 @@ object AppModule {
             AppDatabase::class.java,
             "app_db"
         )
-            .addMigrations(MIGRATION_1_2, REVERSE_MIGRATION_2_1)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .build()
     }
 

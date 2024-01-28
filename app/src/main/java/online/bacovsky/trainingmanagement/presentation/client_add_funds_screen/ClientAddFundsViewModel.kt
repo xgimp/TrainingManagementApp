@@ -71,11 +71,15 @@ class ClientAddFundsViewModel @Inject constructor(
         // form is valid
         viewModelScope.launch {
             val client = clientRepository.getClientById(clientId)
-            client?.let { updatedClient ->
+            client?.let { clientToUpdate ->
+
+                val newFunds = state.funds.toLong()
+                val updatedClient = clientToUpdate.copy(balance = (client.balance + newFunds))
+
                 clientRepository
                     .updateBalanceAndLogPayment(
-                        client = updatedClient.copy(balance = (client.balance + state.funds.toLong())),
-                        newFunds = state.funds.toLong(),
+                        client = updatedClient,
+                        newFunds = newFunds,
                         fundsNote = state.fundsNote
                     )
             }

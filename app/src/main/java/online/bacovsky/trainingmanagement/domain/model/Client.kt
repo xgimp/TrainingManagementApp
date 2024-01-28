@@ -23,7 +23,7 @@ data class Client(
 
     val trainingPrice: Long,
 
-    val balance: Long = 0L,
+    val balance: Long,
 
     @ColumnInfo(defaultValue = "0")
     val telephoneNumber: String = "0",

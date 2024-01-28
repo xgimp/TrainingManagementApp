@@ -16,7 +16,7 @@ import online.bacovsky.trainingmanagement.domain.model.Training
         ClientPayment::class,
         SmsHistory::class
    ],
-   version = 2,
+   version = 3,
 )
 @TypeConverters(LocalDateTimeConverter::class)
 abstract class AppDatabase: RoomDatabase() {

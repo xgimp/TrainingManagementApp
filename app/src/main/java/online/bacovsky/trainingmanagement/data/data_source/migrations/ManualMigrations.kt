@@ -39,16 +39,24 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
     }
 }
 
-
-val REVERSE_MIGRATION_2_1 = object : Migration(2, 1) {
+val MIGRATION_2_3 = object : Migration(2, 3) {
 
     override fun migrate(db: SupportSQLiteDatabase) {
-        // Drop the SmsHistory table and indices
-        db.execSQL("DROP INDEX IF EXISTS index_SmsHistory_sentToClient")
-        db.execSQL("DROP INDEX IF EXISTS index_SmsHistory_smsTextHash")
-        db.execSQL("DROP TABLE IF EXISTS SmsHistory")
-
-        // Remove the added column from the Client table
-        db.execSQL("ALTER TABLE Client DROP COLUMN telephoneNumber")
+        // Fix Client.balance == 0
+        // find all clients where  balance != sum of payments
+        // set balance to sum of payments
+        db.execSQL("""
+            UPDATE Client
+            SET balance = (
+                SELECT COALESCE(SUM(amount), 0)
+                FROM ClientPayment
+                WHERE clientId = Client.id
+            )
+            WHERE balance != (
+                SELECT COALESCE(SUM(amount), 0)
+                FROM ClientPayment
+                WHERE clientId = Client.id
+            );
+        """.trimIndent())
     }
 }

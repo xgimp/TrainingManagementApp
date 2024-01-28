@@ -201,7 +201,7 @@ class CalendarScreenViewModel @Inject constructor(
                 endTime = startTime.plusHours(1),
                 price = client.trainingPrice
             )
-            trainingRepository.insertTrainingAndLogTransaction(
+            trainingRepository.insertTrainingAndLogPayment(
                 training = TrainingWithClient(
                     client = client,
                     training = training
@@ -239,7 +239,7 @@ class CalendarScreenViewModel @Inject constructor(
                 endTime = endDateTime!!,
                 price = addTrainingFormState.client!!.trainingPrice
             )
-            trainingRepository.insertTrainingAndLogTransaction(
+            trainingRepository.insertTrainingAndLogPayment(
                 training = TrainingWithClient(
                     client = addTrainingFormState.client!!,
                     training = training
