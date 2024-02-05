@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import online.bacovsky.trainingmanagement.util.validation.ValidatePhoneNumber
 import javax.inject.Inject
 
 const val TAG = "AddClientViewModel"
@@ -23,6 +24,7 @@ class AddClientViewModel @Inject constructor(
     private val validateName: ValidateName,
     private val validatePrice: ValidatePrice,
     private val validateFunds: ValidateFunds,
+    private val validatePhoneNumber: ValidatePhoneNumber,
     private val repository: ClientRepository
 ): ViewModel() {
 
@@ -30,6 +32,14 @@ class AddClientViewModel @Inject constructor(
 
     private val validationEventChannel = Channel<ValidationEvent>()
     val validationEvents = validationEventChannel.receiveAsFlow()
+
+    private var existingPhoneNumbers = emptyList<String>()
+
+    init {
+        viewModelScope.launch {
+            existingPhoneNumbers = repository.getAllPhoneNumbers()
+        }
+    }
 
     fun onEvent(event: AddClientFormEvent) {
         when(event) {
@@ -48,6 +58,9 @@ class AddClientViewModel @Inject constructor(
             is AddClientFormEvent.Submit -> {
                 submitForm()
             }
+            is AddClientFormEvent.PhoneNumberChanged -> {
+                state = state.copy(phoneNumber = event.phoneNumber)
+            }
         }
     }
 
@@ -55,14 +68,16 @@ class AddClientViewModel @Inject constructor(
         val nameResult = validateName.execute(state.name)
         val priceResult = validatePrice.execute(state.price)
         val fundsResult = validateFunds.execute(state.funds)
+        val phoneNumberResult = validatePhoneNumber.execute(state.phoneNumber, existingPhoneNumbers)
 
         state = state.copy(
             nameError = nameResult.errorMessage,
             priceError = priceResult.errorMessage,
-            fundsError = fundsResult.errorMessage
+            fundsError = fundsResult.errorMessage,
+            phoneNumberError = phoneNumberResult.errorMessage
         )
 
-        val hasError = listOf(nameResult, priceResult, fundsResult).any { !it.success }
+        val hasError = listOf(nameResult, priceResult, fundsResult, phoneNumberResult).any { !it.success }
         if (hasError) { return }
 
         // form is valid
@@ -71,7 +86,8 @@ class AddClientViewModel @Inject constructor(
                 client = Client(
                     name = state.name.trim(),
                     trainingPrice = state.price.toLong(),
-                    balance = state.funds.toLong()
+                    balance = state.funds.toLong(),
+                    telephoneNumber = state.phoneNumber
                 ),
                 paymentNote = state.fundsNote
             )

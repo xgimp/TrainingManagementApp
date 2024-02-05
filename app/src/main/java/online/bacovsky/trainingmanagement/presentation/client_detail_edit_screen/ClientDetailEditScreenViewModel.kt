@@ -14,14 +14,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import online.bacovsky.trainingmanagement.util.validation.ValidatePhoneNumber
 import javax.inject.Inject
 
 @HiltViewModel
 class ClientDetailEditScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private var clientRepository: ClientRepository,
+    private val clientRepository: ClientRepository,
     private val validateName: ValidateName,
     private val validatePrice: ValidatePrice,
+    private val validatePhoneNumber: ValidatePhoneNumber,
 ) : ViewModel() {
 
     var state by mutableStateOf(ClientEditFormState())
@@ -34,6 +36,8 @@ class ClientDetailEditScreenViewModel @Inject constructor(
     var client by mutableStateOf<Client?>(null)
         private set
 
+    private var existingPhoneNumbers = emptyList<String>()
+
     init {
         viewModelScope.launch {
             client = clientRepository.getClientById(clientId)
@@ -41,9 +45,14 @@ class ClientDetailEditScreenViewModel @Inject constructor(
             state = state.copy(
                 id = client?.id,
                 name = client?.name ?: "",
+                phoneNumber = client?.telephoneNumber ?: "",
                 price = client?.trainingPrice.toString(),
                 balance = client?.balance
             )
+
+            val currentClientExcluded = clientRepository.getAllPhoneNumbers().toMutableList()
+            currentClientExcluded.remove(client!!.telephoneNumber)
+            existingPhoneNumbers = currentClientExcluded.toList()
         }
     }
 
@@ -65,19 +74,24 @@ class ClientDetailEditScreenViewModel @Inject constructor(
                     clientDetailEventChannel.send(ClientDetailEvent.ClientDeleted)
                 }
             }
+            is EditClientFormEvent.OnPhoneNumberChanged -> {
+                state = state.copy(phoneNumber = event.phoneNumber)
+            }
         }
     }
 
     private fun submitForm() {
         val nameResult = validateName.execute(state.name)
         val priceResult = validatePrice.execute(state.price)
+        val phoneNumberResult = validatePhoneNumber.execute(state.phoneNumber, existingPhoneNumbers)
 
         state = state.copy(
             nameError = nameResult.errorMessage,
             priceError = priceResult.errorMessage,
+            phoneNumberError = phoneNumberResult.errorMessage
         )
 
-        val hasError = listOf(nameResult, priceResult).any { !it.success }
+        val hasError = listOf(nameResult, priceResult, phoneNumberResult).any { !it.success }
         if (hasError) { return }
 
         // form is valid
@@ -86,6 +100,7 @@ class ClientDetailEditScreenViewModel @Inject constructor(
                 Client(
                     id = client?.id,
                     name = state.name,
+                    telephoneNumber = state.phoneNumber,
                     trainingPrice = state.price.toLong(),
                     balance = client!!.balance
                 )

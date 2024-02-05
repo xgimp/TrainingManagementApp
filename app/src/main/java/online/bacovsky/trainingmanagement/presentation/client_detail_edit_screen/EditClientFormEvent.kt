@@ -6,6 +6,8 @@ sealed class EditClientFormEvent {
 
     data class OnPricePerTrainingChanged(val price: String): EditClientFormEvent()
 
+    data class OnPhoneNumberChanged(val phoneNumber: String): EditClientFormEvent()
+
     data object Submit: EditClientFormEvent()
 
     data object OnDeleteClick: EditClientFormEvent()

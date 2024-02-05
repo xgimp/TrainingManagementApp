@@ -1,0 +1,2 @@
+* Odesílání SMS s tréniky na nadcházející týden (Beta)
+* změna dialogu "Detail tréninku" - zobrazuje se aktualní stav účtu klienta

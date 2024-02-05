@@ -1,0 +1,2 @@
+* user can now send SMS with trainings in upcoming week to the clients (Beta)
+* enhanced "training detal" modal window - now showing clients balance

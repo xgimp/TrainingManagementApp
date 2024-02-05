@@ -5,6 +5,8 @@ import online.bacovsky.trainingmanagement.util.UiText
 data class AddClientFormState(
     val name: String = "",
     val nameError: UiText.StringResource? = null,
+    val phoneNumber: String = "",
+    val phoneNumberError: UiText.StringResource? = null,
     val price: String = "",
     val priceError: UiText.StringResource? = null,
     val funds: String = "",

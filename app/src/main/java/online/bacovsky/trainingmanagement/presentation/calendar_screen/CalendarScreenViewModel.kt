@@ -36,8 +36,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarScreenViewModel @Inject constructor(
     private val clientRepository: ClientRepository,
-    private var eventsRepository: CalendarEventRepository,
-    private var trainingRepository: TrainingRepository,
+    private val eventsRepository: CalendarEventRepository,
+    private val trainingRepository: TrainingRepository,
     private val validateClient: ValidateClient,
     private val validateTrainingStartTime: ValidateTrainingStartTime,
     private val validateTrainingStartDate: ValidateTrainingStartDate
@@ -201,7 +201,7 @@ class CalendarScreenViewModel @Inject constructor(
                 endTime = startTime.plusHours(1),
                 price = client.trainingPrice
             )
-            trainingRepository.insertTrainingAndLogTransaction(
+            trainingRepository.insertTrainingAndLogPayment(
                 training = TrainingWithClient(
                     client = client,
                     training = training
@@ -239,7 +239,7 @@ class CalendarScreenViewModel @Inject constructor(
                 endTime = endDateTime!!,
                 price = addTrainingFormState.client!!.trainingPrice
             )
-            trainingRepository.insertTrainingAndLogTransaction(
+            trainingRepository.insertTrainingAndLogPayment(
                 training = TrainingWithClient(
                     client = addTrainingFormState.client!!,
                     training = training

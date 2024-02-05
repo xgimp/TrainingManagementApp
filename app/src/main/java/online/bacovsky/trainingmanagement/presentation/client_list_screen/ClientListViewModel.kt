@@ -1,6 +1,5 @@
 package online.bacovsky.trainingmanagement.presentation.client_list_screen
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -35,7 +34,6 @@ class ClientListViewModel @Inject constructor(
     var currentSortOrder by mutableStateOf<SortOrder>(SortOrder.NameAsc)
         private set
 
-    // TODO: show this in topAppBar
     var currentSortOrderDisplayName by mutableStateOf("")
         private set
 
@@ -65,6 +63,9 @@ class ClientListViewModel @Inject constructor(
                     Routes.CLIENT_DETAIL_EDIT
                         .replace("{clientId}", "${event.clientId}")
                 ))
+            }
+            is ClientListEvent.OnSmsSendClick -> {
+                sendUiEvent(UiEvent.Navigate(Routes.SMS_SCREEN))
             }
             is ClientListEvent.OnUndoDeleteClick -> {
                 val client = lastDeletedClient?.copy(isDeleted = false)

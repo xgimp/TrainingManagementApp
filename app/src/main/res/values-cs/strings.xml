@@ -21,7 +21,7 @@
     <string name="client_detail">Detail klienta</string>
     <string name="add_client">Přidat klienta</string>
     <string name="add_training">Přidat trénink</string>
-    <string name="training_detail">Training Detail</string>
+    <string name="training_detail">Detail tréninku</string>
     <string name="calendar_screen_title">Kalendář</string>
     <string name="add_funds_screen_title">Přidat peníze</string>
     <string name="add_funds_placeholder">Zadejte částku</string>
@@ -61,4 +61,19 @@
     <string name="sort_by_payment_desc">Datum nejbliší platby ↓</string>
     <string name="sort_by_available_training_asc">Počet tréninků ↑</string>
     <string name="sort_by_available_training_desc">Počet tréninků ↓</string>
+    <string name="invalid_phone_number">Telefonní číslo je nutné  zadat ve formátu 111222333 nebo (+420) 111 222 333</string>
+    <string name="phone_number">Telefonní číslo</string>
+    <string name="sms_greeting">Ahoj</string>
+    <string name="sms_footer">Hezký den</string>
+    <string name="sms_permission_required_message">Je potřeba přidělit aplikaci přidělit oprávnění odesílat SMS</string>
+    <string name="go_to_settings">Přejít do nastavení</string>
+    <string name="sms_confirm_dialog">Opravdu odeslat %1$s SMS?</string>
+    <string name="done">Hotovo</string>
+    <string name="sms_sending_progress">Odesílám SMS %d / %d</string>
+    <string name="sms_confirm_dialog_header">Odeslat SMS</string>
+    <string name="phone_number_exists">Klient s tímto telefonním číslem již existuje</string>
+    <string name="sms_was_sent">Odesláno v:</string>
+    <string name="sms_screen_title">SMS</string>
+    <string name="sms">SMS</string>
+    <string name="other_options">Ostatní</string>
 </resources>

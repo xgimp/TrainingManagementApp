@@ -6,15 +6,17 @@ import androidx.room.TypeConverters
 import online.bacovsky.trainingmanagement.data.type_convertor.LocalDateTimeConverter
 import online.bacovsky.trainingmanagement.domain.model.Client
 import online.bacovsky.trainingmanagement.domain.model.ClientPayment
+import online.bacovsky.trainingmanagement.domain.model.SmsHistory
 import online.bacovsky.trainingmanagement.domain.model.Training
 
 @Database(
     entities = [
         Client::class,
         Training::class,
-        ClientPayment::class
+        ClientPayment::class,
+        SmsHistory::class
    ],
-   version = 1,
+   version = 3,
 )
 @TypeConverters(LocalDateTimeConverter::class)
 abstract class AppDatabase: RoomDatabase() {
@@ -24,5 +26,7 @@ abstract class AppDatabase: RoomDatabase() {
     abstract val trainingDao: TrainingDao
 
     abstract val clientPaymentDao: ClientPaymentDao
+
+    abstract val smsHistoryDao: SmsHistoryDao
 
 }

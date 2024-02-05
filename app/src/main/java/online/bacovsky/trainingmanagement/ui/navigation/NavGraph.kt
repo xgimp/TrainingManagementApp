@@ -16,6 +16,7 @@ import online.bacovsky.trainingmanagement.presentation.client_list_screen.Client
 import online.bacovsky.trainingmanagement.presentation.client_payment_history_screen.ClientPaymentHistoryScreen
 import online.bacovsky.trainingmanagement.presentation.client_add_funds_screen.ClientPaymentListScreen
 import online.bacovsky.trainingmanagement.presentation.main_screen.SelectedClientState
+import online.bacovsky.trainingmanagement.presentation.sms_screen.SmsScreen
 import online.bacovsky.trainingmanagement.util.Routes
 import java.time.LocalDateTime
 
@@ -109,6 +110,13 @@ fun AppNavGraph(
                 onNavigate = {
                     navController.navigate(it.route)
                 },
+            )
+        }
+        composable(Routes.SMS_SCREEN) {
+            SmsScreen(
+                onNavigate = {
+                    navController.navigate(it.route)
+                }
             )
         }
     }

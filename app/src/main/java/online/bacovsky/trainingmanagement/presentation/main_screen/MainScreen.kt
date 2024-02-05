@@ -21,9 +21,12 @@ import online.bacovsky.trainingmanagement.presentation.calendar_screen.CalendarD
 import online.bacovsky.trainingmanagement.presentation.client_list_screen.ClientListViewModel
 import online.bacovsky.trainingmanagement.ui.navigation.AppNavGraph
 import online.bacovsky.trainingmanagement.ui.navigation.BottomNav
+import online.bacovsky.trainingmanagement.util.Routes
 
 @Composable
-fun MainScreen(viewModel: ClientListViewModel = hiltViewModel()) {
+fun MainScreen(
+    viewModel: ClientListViewModel = hiltViewModel()
+) {
 
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -45,7 +48,12 @@ fun MainScreen(viewModel: ClientListViewModel = hiltViewModel()) {
                 CalendarDrawerSheetContent(
                     drawerState = drawerState,
                     items = clients,
-                    selectedClient = selectedClient
+                    selectedClient = selectedClient,
+                    onEvent = viewModel::onEvent,
+                    uiEvents = viewModel.iuEvent,
+                    onNavigate = {
+                        navController.navigate(Routes.SMS_SCREEN)
+                    }
                 )
             }
         }

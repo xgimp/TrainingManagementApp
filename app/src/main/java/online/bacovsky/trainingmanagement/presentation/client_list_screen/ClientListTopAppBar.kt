@@ -1,5 +1,6 @@
 package online.bacovsky.trainingmanagement.presentation.client_list_screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterList
@@ -9,6 +10,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.util.UiText
@@ -32,7 +34,10 @@ fun ClientListTopAppBar(
 
             Text(
                 text = if (currentSortOrderDisplayName == "") defaultOrderName else currentSortOrderDisplayName,
-                maxLines = 1
+                maxLines = 1,
+                modifier = Modifier.clickable {
+                    onClick(ClientListEvent.OnSortButtonClick)
+                }
             )
 
             Box {

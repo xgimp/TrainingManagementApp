@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material.icons.outlined.TimerOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
@@ -26,6 +30,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.util.UiText
+import online.bacovsky.trainingmanagement.util.currencySymbol
+import online.bacovsky.trainingmanagement.util.formattedNumber
 import online.bacovsky.trainingmanagement.util.toLocalizedDateTimeFormat
 import online.bacovsky.trainingmanagement.util.toLocalizedTimeFormat
 
@@ -70,14 +76,12 @@ fun TrainingDetailModalWindow(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                state.training?.client?.name?.let {clientName: String ->
                     Text(
-                        modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 2.dp),
-                        text =clientName,
+                        modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 2.dp),
+                        text = UiText.StringResource(R.string.training_detail).asString(),
                         maxLines = 1,
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = MaterialTheme.typography.titleLarge,
                     )
-                }
                 IconButton(
                     onClick = {
                         onDismiss()
@@ -99,11 +103,27 @@ fun TrainingDetailModalWindow(
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     label = {
+                        Text(text = stringResource(id = R.string.full_name))
+                    },
+                    value = "${state.training?.client?.name}",
+                    readOnly = true,
+                    onValueChange = {},
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Outlined.Person, contentDescription = "Person Icon")
+                    }
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = {
                         Text(text = stringResource(id = R.string.training_start_time))
                     },
                     value = state.training?.training?.startTime?.toLocalizedTimeFormat() ?: "",
                     readOnly = true,
-                    onValueChange = {}
+                    onValueChange = {},
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Outlined.Timer, contentDescription = "Timer Icon")
+                    }
                 )
 
                 OutlinedTextField(
@@ -113,8 +133,25 @@ fun TrainingDetailModalWindow(
                     },
                     value = state.training?.training?.endTime?.toLocalizedTimeFormat() ?: "",
                     readOnly = true,
-                    onValueChange = {}
+                    onValueChange = {},
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Outlined.TimerOff, contentDescription = "TimerOff Icon")
+                    }
                 )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = {
+                        Text(text = stringResource(id = R.string.account_balance))
+                    },
+                    value = "${state.training?.client?.balance?.formattedNumber()} $currencySymbol",
+                    readOnly = true,
+                    onValueChange = {},
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Outlined.AccountBalanceWallet, contentDescription = "TimerOff Icon")
+                    }
+                )
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

@@ -9,4 +9,6 @@ sealed class AddClientFormEvent {
     data class FundsChanged(val funds: String, val fundsNote: String): AddClientFormEvent()
 
     data object Submit: AddClientFormEvent()
+    data class PhoneNumberChanged(val phoneNumber: String): AddClientFormEvent()
+
 }

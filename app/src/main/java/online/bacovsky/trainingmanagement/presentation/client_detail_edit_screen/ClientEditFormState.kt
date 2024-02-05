@@ -5,6 +5,8 @@ import online.bacovsky.trainingmanagement.util.UiText
 data class ClientEditFormState(
     val id: Long? = null,
     val name: String = "",
+    val phoneNumber: String = "",
+    val phoneNumberError: UiText.StringResource? = null,
     val nameError: UiText.StringResource? = null,
     val price: String = "",
     val priceError: UiText.StringResource? = null,

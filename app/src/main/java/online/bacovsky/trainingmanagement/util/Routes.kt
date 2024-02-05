@@ -11,4 +11,7 @@ object Routes {
     const val CLIENT_DETAIL_EDIT = "client/{clientId}/detail"
     const val CLIENT_FUNDS_SCREEN = "client/{clientId}/add_funds"
     const val CLIENT_PAYMENT_HISTORY_SCREEN = "client/{clientId}/payment_history"
+
+    // SMS screen routes
+    const val SMS_SCREEN = "sms_screen"
 }

@@ -1,6 +1,5 @@
 package online.bacovsky.trainingmanagement.data.repository
 
-import androidx.room.Transaction
 import online.bacovsky.trainingmanagement.domain.model.Client
 import online.bacovsky.trainingmanagement.data.data_source.ClientDao
 import online.bacovsky.trainingmanagement.data.data_source.ClientPaymentDao
@@ -15,12 +14,10 @@ class ClientRepositoryImpl(
     private val transactionProvider: TransactionProvider
 ): ClientRepository {
 
-
     override suspend fun insert(client: Client) {
         clientDao.insertClient(client)
     }
 
-    @Transaction
     override suspend fun insertClientAndLogPayment(client: Client, paymentNote: String) {
         transactionProvider.runAsTransaction {
             val clientId = clientDao.insertClient(client)
@@ -35,7 +32,6 @@ class ClientRepositoryImpl(
         }
     }
 
-    @Transaction
     override suspend fun updateBalanceAndLogPayment(client: Client, newFunds: Long, fundsNote: String) {
         transactionProvider.runAsTransaction {
             clientDao.updateClient(client)
@@ -47,20 +43,11 @@ class ClientRepositoryImpl(
                     note = fundsNote
                 )
             )
-
         }
     }
 
     override suspend fun delete(client: Client) {
-        clientDao.updateClient(
-            Client(
-                id = client.id,
-                name = client.name,
-                trainingPrice = client.trainingPrice,
-                createdAt = client.createdAt,
-                isDeleted = true
-            )
-        )
+        clientDao.updateClient(client.copy(isDeleted = true))
     }
 
     override suspend fun getClientById(id: Long): Client? {
@@ -72,15 +59,7 @@ class ClientRepositoryImpl(
     }
 
     override suspend fun update(client: Client) {
-        clientDao.updateClient(
-            Client(
-                id = client.id,
-                name = client.name,
-                trainingPrice = client.trainingPrice,
-                balance = client.balance,
-                isDeleted = client.isDeleted
-            )
-        )
+        clientDao.updateClient(client)
     }
 
     override suspend fun getBalanceByClientId(clientId: Long): Long {
@@ -93,6 +72,10 @@ class ClientRepositoryImpl(
 
     override fun getClientsWithMetadata(): Flow<List<ClientWithMetadata>> {
         return clientDao.getClientsWithMetadata()
+    }
+
+    override suspend fun getAllPhoneNumbers(): List<String> {
+        return clientDao.getAllPhoneNumbers()
     }
 
 }

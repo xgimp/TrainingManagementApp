@@ -7,10 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import online.bacovsky.trainingmanagement.presentation.main_screen.MainScreen
-import online.bacovsky.trainingmanagement.ui.theme.TrainingManagementTheme
 import dagger.hilt.android.AndroidEntryPoint
 import de.raphaelebner.roomdatabasebackup.core.RoomBackup
+import online.bacovsky.trainingmanagement.presentation.main_screen.MainScreen
+import online.bacovsky.trainingmanagement.ui.theme.TrainingManagementTheme
+
 
 const val TAG = "MainActivity"
 

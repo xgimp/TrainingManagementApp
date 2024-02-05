@@ -2,6 +2,7 @@ package online.bacovsky.trainingmanagement.domain.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import online.bacovsky.trainingmanagement.ui.theme.inDebtEventColor
@@ -22,7 +23,10 @@ data class Client(
 
     val trainingPrice: Long,
 
-    val balance: Long = 0L,
+    val balance: Long,
+
+    @ColumnInfo(defaultValue = "0")
+    val telephoneNumber: String = "0",
 
     val createdAt: LocalDateTime = LocalDateTime.now()
 
