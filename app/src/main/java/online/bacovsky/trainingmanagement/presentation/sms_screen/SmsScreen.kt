@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowForward
@@ -34,8 +33,6 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -53,10 +50,8 @@ import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.launch
 import online.bacovsky.trainingmanagement.R
 import online.bacovsky.trainingmanagement.domain.model.ClientWithScheduledTrainings
-import online.bacovsky.trainingmanagement.domain.model.SmsHistory
 import online.bacovsky.trainingmanagement.util.UiEvent
 import online.bacovsky.trainingmanagement.util.UiText
-import online.bacovsky.trainingmanagement.util.toLocalizedDateTimeFormat
 import online.bacovsky.trainingmanagement.util.toLocalizedFormat
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalFoundationApi::class)
