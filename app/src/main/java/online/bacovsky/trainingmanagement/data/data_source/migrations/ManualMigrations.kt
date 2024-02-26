@@ -18,7 +18,7 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
                     id INTEGER PRIMARY KEY AUTOINCREMENT, 
                     sentToClient INTEGER NOT NULL, 
                     startDate TEXT NOT NULL, 
-                     TEXT NOT NULL, 
+                    endDate TEXT NOT NULL, 
                     smsText TEXT NOT NULL, 
                     smsTextHash TEXT NOT NULL, 
                     sentAt TEXT NOT NULL, 
@@ -36,5 +36,27 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
                 CREATE INDEX IF NOT EXISTS index_SmsHistory_smsTextHash ON SmsHistory(smsTextHash)
             """.trimIndent()
         )
+    }
+}
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Fix Client.balance == 0
+        // find all clients where  balance != sum of payments
+        // set balance to sum of payments
+        db.execSQL("""
+            UPDATE Client
+            SET balance = (
+                SELECT COALESCE(SUM(amount), 0)
+                FROM ClientPayment
+                WHERE clientId = Client.id
+            )
+            WHERE balance != (
+                SELECT COALESCE(SUM(amount), 0)
+                FROM ClientPayment
+                WHERE clientId = Client.id
+            );
+        """.trimIndent())
     }
 }

@@ -22,9 +22,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_1_2
+import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_2_3
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.SmsRepositoryImpl
-import online.bacovsky.trainingmanagement.services.SmsService
 import online.bacovsky.trainingmanagement.util.validation.ValidatePhoneNumber
 import javax.inject.Singleton
 
@@ -40,7 +40,7 @@ object AppModule {
             AppDatabase::class.java,
             "app_db"
         )
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .build()
     }
 
@@ -64,14 +64,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSmsDataRepository(db: AppDatabase): SmsRepository {
-        return SmsRepositoryImpl(db.smsHistoryDao)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSmsService(@ApplicationContext appContext: Context, smsRepository: SmsRepository): SmsService {
-        return SmsService(appContext, smsRepository)
+    fun provideSmsDataRepository(@ApplicationContext appContext: Context, db: AppDatabase): SmsRepository {
+        return SmsRepositoryImpl(appContext, db.smsHistoryDao)
     }
 
     @Provides

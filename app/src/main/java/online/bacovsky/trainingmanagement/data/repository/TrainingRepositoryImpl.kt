@@ -1,7 +1,6 @@
 package online.bacovsky.trainingmanagement.data.repository
 
 import android.util.Log
-import androidx.room.Transaction
 import online.bacovsky.trainingmanagement.data.data_source.ClientDao
 import online.bacovsky.trainingmanagement.data.data_source.ClientPaymentDao
 import online.bacovsky.trainingmanagement.data.data_source.TrainingDao
@@ -45,7 +44,6 @@ class TrainingRepositoryImpl (
         return trainingDao.getAllTrainings()
     }
 
-    @Transaction
     override suspend fun cancelTrainingAndLogPayment(
         trainingWithClient: TrainingWithClient,
         paymentNote: String
@@ -73,8 +71,7 @@ class TrainingRepositoryImpl (
         }
     }
 
-    @Transaction
-    override suspend fun insertTrainingAndLogTransaction(training: TrainingWithClient, paymentNote: String) {
+    override suspend fun insertTrainingAndLogPayment(training: TrainingWithClient, paymentNote: String) {
         transactionProvider.runAsTransaction {
             // insert training
             trainingDao.insert(training.training)
