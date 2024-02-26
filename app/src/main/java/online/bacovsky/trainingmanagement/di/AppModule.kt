@@ -1,9 +1,7 @@
 package online.bacovsky.trainingmanagement.di
 
 import android.content.Context
-import androidx.room.AutoMigration
 import androidx.room.Room
-import androidx.room.migration.AutoMigrationSpec
 import online.bacovsky.trainingmanagement.data.data_source.AppDatabase
 import online.bacovsky.trainingmanagement.data.repository.CalendarEventRepository
 import online.bacovsky.trainingmanagement.data.repository.CalendarEventRepositoryImpl
@@ -25,7 +23,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_1_2
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_2_3
-import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_3_4
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.SmsRepositoryImpl
 import online.bacovsky.trainingmanagement.services.SmsService

@@ -255,7 +255,6 @@ fun CategorizedLazyColumn(
                 it.client.id!!
             }
         ) { smsToPreview ->
-
             SMSPreviewItem(
                 item = smsToPreview,
             )
