@@ -6,6 +6,6 @@ import androidx.room.migration.AutoMigrationSpec
 
 @DeleteColumn(columnName = "startDate", tableName = "SmsHistory")
 @DeleteColumn(columnName = "endDate", tableName = "SmsHistory")
-class MigrationFrom2To3: AutoMigrationSpec
+class MIGRATION_3_4: AutoMigrationSpec
 
 

@@ -1,7 +1,9 @@
 package online.bacovsky.trainingmanagement.di
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Room
+import androidx.room.migration.AutoMigrationSpec
 import online.bacovsky.trainingmanagement.data.data_source.AppDatabase
 import online.bacovsky.trainingmanagement.data.repository.CalendarEventRepository
 import online.bacovsky.trainingmanagement.data.repository.CalendarEventRepositoryImpl
@@ -23,8 +25,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_1_2
 import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_2_3
+import online.bacovsky.trainingmanagement.data.data_source.migrations.MIGRATION_3_4
 import online.bacovsky.trainingmanagement.data.repository.SmsRepository
 import online.bacovsky.trainingmanagement.data.repository.SmsRepositoryImpl
+import online.bacovsky.trainingmanagement.services.SmsService
 import online.bacovsky.trainingmanagement.util.validation.ValidatePhoneNumber
 import javax.inject.Singleton
 
@@ -64,8 +68,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSmsDataRepository(@ApplicationContext appContext: Context, db: AppDatabase): SmsRepository {
-        return SmsRepositoryImpl(appContext, db.smsHistoryDao)
+    fun provideSmsDataRepository(db: AppDatabase): SmsRepository {
+        return SmsRepositoryImpl(db.smsHistoryDao)
     }
 
     @Provides
@@ -106,6 +110,11 @@ object AppModule {
     @Provides
     fun provideTelephoneNumberValidation(): ValidatePhoneNumber {
         return ValidatePhoneNumber()
+    }
+
+    @Provides
+    fun provideSmsService(@ApplicationContext context: Context, smsRepository: SmsRepository): SmsService {
+        return SmsService(context, smsRepository)
     }
 
 }

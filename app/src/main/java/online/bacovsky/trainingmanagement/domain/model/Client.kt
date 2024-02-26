@@ -25,11 +25,7 @@ data class Client(
 
     val balance: Long,
 
-    @ColumnInfo(defaultValue = "0")
-    val telephoneNumber: String = "0",
-
-    @ColumnInfo(defaultValue = "0")
-    val telephoneNumber: String = "0",
+    val telephoneNumber: String,
 
     val createdAt: LocalDateTime = LocalDateTime.now()
 
